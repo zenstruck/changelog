@@ -1,0 +1,26 @@
+{
+    "name": "zenstruck/changelog",
+    "description": "Generate pretty release changelogs for GitHub using the commit log.",
+    "homepage": "https://github.com/zenstruck/changelog",
+    "type": "library",
+    "license": "MIT",
+    "keywords": ["changelog", "generator"],
+    "authors": [
+        {
+            "name": "Kevin Bond",
+            "email": "kevinbond@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "symfony/console": "^5.3",
+        "symfony/http-client": "^5.3"
+    },
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": { "Zenstruck\\Changelog\\": "src/" }
+    }
+}
