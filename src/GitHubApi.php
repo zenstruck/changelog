@@ -63,4 +63,21 @@ final class GitHubApi
 
         return isset($response[0]) ? new PullRequest($response[0]) : null;
     }
+
+    public function loginForEmail(string $email): ?string
+    {
+        $response = $this->http->request('GET', "/search/users?q={$email} in:email")->toArray();
+
+        if (!isset($response['items'])) {
+            return null;
+        }
+
+        foreach ($response['items'] as $item) {
+            if ('User' === $item['type']) {
+                return $item['login'];
+            }
+        }
+
+        return null;
+    }
 }

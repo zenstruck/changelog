@@ -32,7 +32,7 @@ final class Commit
             $message .= " {$pr}";
         }
 
-        return "{$message} by {$this->author()}";
+        return \sprintf('%s by %s', $message, \implode(', ', $this->authors()));
     }
 
     public function isMerge(): bool
@@ -46,6 +46,11 @@ final class Commit
         return $this->summary;
     }
 
+    public function message(): string
+    {
+        return $this->raw['commit']['message'];
+    }
+
     public function author(): string
     {
         if (isset($this->raw['author']['login'])) {
@@ -53,6 +58,38 @@ final class Commit
         }
 
         return $this->raw['commit']['author']['name'];
+    }
+
+    public function coAuthors(): array
+    {
+        if (!\preg_match_all('#co-authored-by:(.+)#i', $this->message(), $matches)) {
+            return [];
+        }
+
+        return \array_map(
+            function($value) {
+                if (!\preg_match('#<(.+)>#', $value = \trim($value), $matches)) {
+                    return $value;
+                }
+
+                $email = $matches[1];
+
+                if (\preg_match('#([\w-]+)@users\.noreply\.github\.com#', $email, $matches)) {
+                    // parsed login from noreply email
+                    return "@{$matches[1]}";
+                }
+
+                $login = $this->api->loginForEmail($email);
+
+                return $login ? "@{$login}" : $value;
+            },
+            $matches[1]
+        );
+    }
+
+    public function authors(): array
+    {
+        return \array_merge([$this->author()], $this->coAuthors());
     }
 
     public function sha(): string
