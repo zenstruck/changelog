@@ -18,7 +18,6 @@ final class Commit
         $this->raw = $raw;
         $this->repository = $repository;
         $this->api = $api;
-        $this->summary = \explode("\n", $raw['commit']['message'])[0];
     }
 
     public function __toString(): string
@@ -43,7 +42,7 @@ final class Commit
 
     public function summary(): string
     {
-        return $this->summary;
+        return $this->summary ??= \explode("\n", $this->message())[0];
     }
 
     public function message(): string
