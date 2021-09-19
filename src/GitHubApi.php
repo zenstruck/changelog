@@ -37,7 +37,7 @@ final class GitHubApi
         if (!$comparison->from()) {
             $response = $this->request('GET', "/repos/{$repository}/commits?sha={$comparison}");
 
-            return new CommitCollection($response, $repository, $this);
+            return new CommitCollection(\array_reverse($response), $repository, $this);
         }
 
         $response = $this->http->request('GET', "/repos/{$repository}/compare/{$comparison}")->toArray();
