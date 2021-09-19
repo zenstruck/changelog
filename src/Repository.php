@@ -26,14 +26,9 @@ final class Repository
         return $this->raw['default_branch'];
     }
 
-    public function isFork(): bool
+    public function source(): ?self
     {
-        return $this->raw['fork'];
-    }
-
-    public function parent(): ?self
-    {
-        return isset($this->raw['parent']) ? new self($this->raw['parent'], $this->api) : null;
+        return isset($this->raw['source']) ? new self($this->raw['source'], $this->api) : null;
     }
 
     public function releases(): ReleaseCollection

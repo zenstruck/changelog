@@ -32,7 +32,7 @@ abstract class BaseCommand extends Command
         $repository = $this->api()->repository(self::parseRepositoryFrom($gitConfigFile));
 
         // use parent if exists (not a fork)
-        return $repository->parent() ?? $repository;
+        return $repository->source() ?? $repository;
     }
 
     private static function parseRepositoryFrom(string $gitConfigFile): string
