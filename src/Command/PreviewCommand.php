@@ -23,8 +23,7 @@ final class PreviewCommand extends Command
     {
         parent::__construct();
 
-        // todo improve token fetching system (save to config file?)
-        $this->api = new GitHubApi($_SERVER['GITHUB_API_TOKEN'] ?? null);
+        $this->api = new GitHubApi();
     }
 
     protected function configure(): void
