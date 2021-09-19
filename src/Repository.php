@@ -35,4 +35,9 @@ final class Repository
     {
         return $this->api->releases($this);
     }
+
+    public function compare(?string $from, ?string $to): Comparison
+    {
+        return new Comparison($from ?? $this->releases()->latest(), $to ?? $this->defaultBranch());
+    }
 }

@@ -62,9 +62,9 @@ final class Version
         throw new \InvalidArgumentException('Unknown semantic version type.');
     }
 
-    private static function normalizeType(string $type): ?string
+    private static function normalizeType(string $value): ?string
     {
-        switch ($type) {
+        switch ($value) {
             case 'major':
             case 'maj':
                 return self::MAJOR;

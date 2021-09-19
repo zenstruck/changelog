@@ -32,7 +32,7 @@ final class GitHubApi
         return new Repository($this->request('GET', "/repos/{$name}"), $this);
     }
 
-    public function commits(string $repository, Comparison $comparison): CommitCollection
+    public function commits(Repository $repository, Comparison $comparison): CommitCollection
     {
         if (!$comparison->from()) {
             $response = $this->request('GET', "/repos/{$repository}/commits?sha={$comparison}");
@@ -49,14 +49,14 @@ final class GitHubApi
         return new CommitCollection($response['commits'], $repository, $this);
     }
 
-    public function releases(string $repository): ReleaseCollection
+    public function releases(Repository $repository): ReleaseCollection
     {
         $response = $this->request('GET', "/repos/{$repository}/releases");
 
         return new ReleaseCollection($response);
     }
 
-    public function pullRequestFor(string $repository, Commit $commit): ?PullRequest
+    public function pullRequestFor(Repository $repository, Commit $commit): ?PullRequest
     {
         $response = $this->request('GET', "/repos/{$repository}/commits/{$commit->sha()}/pulls", [
             'headers' => ['Accept' => 'application/vnd.github.groot-preview+json'],

@@ -8,12 +8,12 @@ namespace Zenstruck\Changelog;
 final class Commit
 {
     private array $raw;
-    private string $repository;
+    private Repository $repository;
     private GitHubApi $api;
     private string $summary;
     private ?PullRequest $pr;
 
-    public function __construct(array $raw, string $repository, GitHubApi $api)
+    public function __construct(array $raw, Repository $repository, GitHubApi $api)
     {
         $this->raw = $raw;
         $this->repository = $repository;

@@ -7,7 +7,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Zenstruck\Changelog\Comparison;
 use Zenstruck\Changelog\Formatter;
 
 /**
@@ -31,10 +30,7 @@ final class PreviewCommand extends BaseCommand
     {
         $io = new SymfonyStyle($input, $output);
         $repository = $this->fetchRepository($input->getOption('repository'));
-        $comparison = new Comparison(
-            $input->getOption('from') ?? $repository->releases()->latest(),
-            $input->getOption('to') ?? $repository->defaultBranch()
-        );
+        $comparison = $repository->compare($input->getOption('from'), $input->getOption('to'));
         $next = $input->getArgument('next') ? $repository->releases()->next($input->getArgument('next')) : null;
 
         $io->title('Changelog Preview');
