@@ -43,17 +43,19 @@ final class PreviewCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $repository = $this->fetchRepository($input->getOption('repository'));
         $comparison = $repository->compare($input->getOption('from'), $input->getOption('to'));
-        $next = $input->getArgument('next') ? $repository->releases()->nextVersion($input->getArgument('next')) : null;
+        $next = $input->getArgument('next') ? $repository->releases()->next($input->getArgument('next')) : null;
 
         $io->title('Changelog Generator');
         $io->comment("Generating <info>{$repository}:{$comparison}</info> changelog");
 
         $formatter = new Formatter();
+        $commits = $this->api->commits($repository, $comparison);
 
-        $io->write($formatter->releaseBody(
-            $this->api->commits($repository, $comparison),
-            $next ? $next->compareWith($comparison->from()) : null
-        ));
+        if ($next) {
+            $io->write($formatter->release($next, $commits, $next->version()->compareWith($comparison->from())));
+        } else {
+            $io->write($formatter->releaseBody($commits));
+        }
 
         $io->success('Done.');
 

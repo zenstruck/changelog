@@ -5,7 +5,7 @@ namespace Zenstruck\Changelog;
 /**
  * @author Kevin Bond <kevinbond@gmail.com>
  */
-final class Release
+class Release
 {
     private array $raw;
 

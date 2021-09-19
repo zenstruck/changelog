@@ -12,6 +12,11 @@ final class Formatter
         return '# CHANGELOG';
     }
 
+    public function release(Release $release, CommitCollection $commits, ?Comparison $comparison = null): string
+    {
+        return "{$this->releaseHeader($release)}\n\n{$this->releaseBody($commits, $comparison)}";
+    }
+
     public function releaseHeader(Release $release): string
     {
         return "## {$release->version()} ({$release->publishedAt()->format('Y-m-d')})";
@@ -29,7 +34,7 @@ final class Formatter
         ));
 
         if ($comparison) {
-            $ret .= "\n\n[Full Change List]({$comparison->url($commits->repository())}";
+            $ret .= "\n\n[Full Change List]({$comparison->url($commits->repository())})";
         }
 
         return $ret;

@@ -15,13 +15,9 @@ final class ReleaseCollection extends Collection
         $this->releases = \array_map(static fn(array $release) => new Release($release), $releases);
     }
 
-    public function nextVersion(string $type): Version
+    public function next(string $value): PendingRelease
     {
-        if ($this->latest()) {
-            return $this->latest()->version()->next($type);
-        }
-
-        return Version::first($type);
+        return new PendingRelease($this->nextVersion($value));
     }
 
     public function latest(): ?Release
@@ -40,5 +36,14 @@ final class ReleaseCollection extends Collection
     public function count(): int
     {
         return \count($this->releases);
+    }
+
+    private function nextVersion(string $value): Version
+    {
+        if ($this->latest()) {
+            return $this->latest()->version()->next($value);
+        }
+
+        return Version::first($value);
     }
 }
