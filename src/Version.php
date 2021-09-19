@@ -71,7 +71,9 @@ final class Version
     {
         switch ($type) {
             case 'major':
+            case 'maj':
                 return self::MAJOR;
+            case 'min':
             case 'minor':
             case 'feature':
             case 'feat':

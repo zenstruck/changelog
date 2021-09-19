@@ -31,7 +31,7 @@ final class PreviewCommand extends Command
         $this
             ->setName('preview')
             ->setDescription('Preview changelog for next release')
-            ->addArgument('next', InputArgument::OPTIONAL, 'Next version, can use semantic type to auto-generate: major, minor (feature, feat) or patch (bug, bugfix)')
+            ->addArgument('next', InputArgument::OPTIONAL, 'Next version, can use semantic type to auto-generate: major (maj), minor (min, feature, feat) or patch (bug, bugfix)')
             ->addOption('repository', 'r', InputOption::VALUE_REQUIRED, 'GitHub repository use (leave blank to detect from current directory)')
             ->addOption('from', null, InputOption::VALUE_REQUIRED, 'Release to start changelog from (leave blank for latest)')
             ->addOption('to', null, InputOption::VALUE_REQUIRED, 'Release to end changelog (leave blank for default branch)')
