@@ -23,4 +23,9 @@ final class Release
     {
         return new Version($this->raw['tag_name']);
     }
+
+    public function publishedAt(): \DateTimeImmutable
+    {
+        return new \DateTimeImmutable($this->raw['published_at']);
+    }
 }

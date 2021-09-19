@@ -20,20 +20,6 @@ final class Commit
         $this->api = $api;
     }
 
-    public function __toString(): string
-    {
-        // todo custom formatters?
-        $message = "{$this->shortSha()} {$this->summary()}";
-        $pr = $this->pr();
-
-        if ($pr && !str_contains($message, $pr = "(#{$pr->number()})")) {
-            // add PR link if message doesn't already contain
-            $message .= " {$pr}";
-        }
-
-        return \sprintf('%s by %s', $message, \implode(', ', $this->authors()));
-    }
-
     public function isMerge(): bool
     {
         // todo improve? currently only looks at the standard message github suggests

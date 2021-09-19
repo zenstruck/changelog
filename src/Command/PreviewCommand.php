@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Zenstruck\Changelog\Comparison;
+use Zenstruck\Changelog\Formatter;
 use Zenstruck\Changelog\GitHubApi;
 use Zenstruck\Changelog\Repository;
 
@@ -42,36 +42,18 @@ final class PreviewCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
         $repository = $this->fetchRepository($input->getOption('repository'));
-        $comparison = new Comparison(
-            $input->getOption('to') ?? $repository->defaultBranch(),
-            $input->getOption('from') ?? $repository->releases()->latest()
-        );
+        $comparison = $repository->compare($input->getOption('from'), $input->getOption('to'));
         $next = $input->getArgument('next') ? $repository->releases()->nextVersion($input->getArgument('next')) : null;
 
         $io->title('Changelog Generator');
         $io->comment("Generating <info>{$repository}:{$comparison}</info> changelog");
 
-        if ($next) {
-            $io->comment("Release as <info>{$next}</info>");
-        }
+        $formatter = new Formatter();
 
-        $commits = $this->api->commits($repository, $comparison);
-
-        if ($commits->isEmpty()) {
-            throw new \RuntimeException('No commits for range.');
-        }
-
-        foreach ($commits->reverse()->withoutMerges() as $commit) {
-            $io->writeln((string) $commit);
-        }
-
-        if ($next) {
-            $io->newLine();
-            $io->writeln(\sprintf(
-                '[Full Change List](%s)',
-                $next->compareWith($comparison->from())->url($repository)
-            ));
-        }
+        $io->write($formatter->releaseBody(
+            $this->api->commits($repository, $comparison),
+            $next ? $next->compareWith($comparison->from()) : null
+        ));
 
         $io->success('Done.');
 

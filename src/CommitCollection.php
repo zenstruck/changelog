@@ -9,10 +9,17 @@ final class CommitCollection extends Collection
 {
     /** @var Commit[] */
     private array $commits;
+    private string $repository;
 
     public function __construct(array $commits, string $repository, GitHubApi $api)
     {
         $this->commits = \array_map(static fn(array $commit) => new Commit($commit, $repository, $api), $commits);
+        $this->repository = $repository;
+    }
+
+    public function repository(): string
+    {
+        return $this->repository;
     }
 
     public function reverse(): self

@@ -21,6 +21,11 @@ final class Repository
         return $this->raw['full_name'];
     }
 
+    public function compare(?string $from, ?string $to): Comparison
+    {
+        return new Comparison($to ?? $this->defaultBranch(), $from ?? $this->releases()->latest());
+    }
+
     public function defaultBranch(): string
     {
         return $this->raw['default_branch'];
@@ -33,7 +38,7 @@ final class Repository
 
     public function parent(): ?self
     {
-        return isset($this->raw['parent']) ? new self($this->raw['parent']) : null;
+        return isset($this->raw['parent']) ? new self($this->raw['parent'], $this->api) : null;
     }
 
     public function releases(): ReleaseCollection
