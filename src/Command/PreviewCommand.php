@@ -3,6 +3,7 @@
 namespace Zenstruck\Changelog\Command;
 
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -14,7 +15,7 @@ use Zenstruck\Changelog\Repository;
 /**
  * @author Kevin Bond <kevinbond@gmail.com>
  */
-final class GenerateCommand extends Command
+final class PreviewCommand extends Command
 {
     private GitHubApi $api;
 
@@ -29,9 +30,9 @@ final class GenerateCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setName('generate')
-            ->setDescription('Generate changelog')
-            ->addOption('type', 't', InputOption::VALUE_REQUIRED, 'Next version type: major, minor (feature, feat) or patch (bug, bugfix)')
+            ->setName('preview')
+            ->setDescription('Preview changelog for next release')
+            ->addArgument('next', InputArgument::OPTIONAL, 'Next version, can use semantic type to auto-generate: major, minor (feature, feat) or patch (bug, bugfix)')
             ->addOption('repository', 'r', InputOption::VALUE_REQUIRED, 'GitHub repository use (leave blank to detect from current directory)')
             ->addOption('from', null, InputOption::VALUE_REQUIRED, 'Release to start changelog from (leave blank for latest)')
             ->addOption('to', null, InputOption::VALUE_REQUIRED, 'Release to end changelog (leave blank for default branch)')
@@ -42,12 +43,11 @@ final class GenerateCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
         $repository = $this->fetchRepository($input->getOption('repository'));
-        $type = $input->getOption('type');
         $comparison = new Comparison(
             $input->getOption('to') ?? $repository->defaultBranch(),
             $input->getOption('from') ?? $repository->releases()->latest()
         );
-        $next = $input->getOption('type') ? $repository->releases()->nextVersion($type) : null;
+        $next = $input->getArgument('next') ? $repository->releases()->nextVersion($input->getArgument('next')) : null;
 
         $io->title('Changelog Generator');
         $io->comment("Generating <info>{$repository}:{$comparison}</info> changelog");

@@ -28,14 +28,22 @@ final class Version
         return $this->raw;
     }
 
+    public static function first(string $value): self
+    {
+        // todo make prefix configurable
+        return (new self('v0.0.0'))->next($value);
+    }
+
     public function compareWith(?string $from = null): Comparison
     {
         return new Comparison($this, $from);
     }
 
-    public function next(string $type): self
+    public function next(string $value): self
     {
-        $type = self::normalizeType($type);
+        if (!$type = self::normalizeType($value)) {
+            return new self($value);
+        }
 
         if (3 !== \count($this->parts)) {
             throw new \RuntimeException('Unable to parse semantic version.');
@@ -59,7 +67,7 @@ final class Version
         throw new \InvalidArgumentException('Unknown semantic version type.');
     }
 
-    private static function normalizeType(string $type): string
+    private static function normalizeType(string $type): ?string
     {
         switch ($type) {
             case 'major':
@@ -74,6 +82,6 @@ final class Version
                 return self::PATCH;
         }
 
-        throw new \InvalidArgumentException('Unknown type.');
+        return null;
     }
 }

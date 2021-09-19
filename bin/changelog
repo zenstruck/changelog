@@ -2,7 +2,7 @@
 <?php
 
 use Symfony\Component\Console\Application;
-use Zenstruck\Changelog\Command\GenerateCommand;
+use Zenstruck\Changelog\Command\PreviewCommand;
 
 set_time_limit(0);
 
@@ -17,7 +17,7 @@ require $autoload;
 $application = new Application('zenstruck/changelog', '@dev');
 
 $application->addCommands([
-    $default = new GenerateCommand(),
+    $default = new PreviewCommand(),
 ]);
 
 $application->setDefaultCommand($default->getName());

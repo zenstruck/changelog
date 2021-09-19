@@ -21,8 +21,7 @@ final class ReleaseCollection extends Collection
             return $this->latest()->version()->next($type);
         }
 
-        // todo make prefix configurable
-        return (new Version('v0.0.0'))->next($type);
+        return Version::first($type);
     }
 
     public function latest(): ?Release
