@@ -21,11 +21,6 @@ final class Repository
         return $this->raw['full_name'];
     }
 
-    public function compare(?string $from, ?string $to): Comparison
-    {
-        return new Comparison($to ?? $this->defaultBranch(), $from ?? $this->releases()->latest());
-    }
-
     public function defaultBranch(): string
     {
         return $this->raw['default_branch'];

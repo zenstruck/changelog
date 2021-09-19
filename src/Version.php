@@ -34,11 +34,6 @@ final class Version
         return (new self('v0.0.0'))->next($value);
     }
 
-    public function compareWith(?string $from = null): Comparison
-    {
-        return new Comparison($this, $from);
-    }
-
     public function next(string $value): self
     {
         if (!$type = self::normalizeType($value)) {

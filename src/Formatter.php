@@ -9,35 +9,34 @@ final class Formatter
 {
     public function changelogHeader(): string
     {
-        return '# CHANGELOG';
+        return "# CHANGELOG\n\n";
     }
 
-    public function release(Release $release, CommitCollection $commits, ?Comparison $comparison = null): string
+    public function release(Release $release, CommitCollection $commits): string
     {
-        return "{$this->releaseHeader($release)}\n\n{$this->releaseBody($commits, $comparison)}";
+        return <<<EOF
+            {$this->releaseHeader($release)}
+            {$this->releaseBody($commits)}\n
+            [Full Change List]({$release->compareWithPrevious()->url($commits->repository())})\n\n
+            EOF
+        ;
     }
 
     public function releaseHeader(Release $release): string
     {
-        return "## {$release->version()} ({$release->publishedAt()->format('Y-m-d')})";
+        return "## {$release->version()} ({$release->publishedAt()->format('Y-m-d')})\n";
     }
 
-    public function releaseBody(CommitCollection $commits, ?Comparison $comparison = null): string
+    public function releaseBody(CommitCollection $commits): string
     {
         if ($commits->isEmpty()) {
             return '*(No commits)*';
         }
 
-        $ret = \implode("\n", \array_map(
+        return \implode("\n", \array_map(
             fn(Commit $commit) => $this->commit($commit),
             \iterator_to_array($commits->reverse()->withoutMerges())
         ));
-
-        if ($comparison) {
-            $ret .= "\n\n[Full Change List]({$comparison->url($commits->repository())})";
-        }
-
-        return $ret;
     }
 
     public function commit(Commit $commit): string

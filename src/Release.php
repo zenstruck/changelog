@@ -8,10 +8,12 @@ namespace Zenstruck\Changelog;
 class Release
 {
     private array $raw;
+    private ?Release $previous;
 
-    public function __construct(array $raw)
+    public function __construct(array $raw, ?self $previous = null)
     {
         $this->raw = $raw;
+        $this->previous = $previous;
     }
 
     public function __toString(): string
@@ -27,5 +29,15 @@ class Release
     public function publishedAt(): \DateTimeImmutable
     {
         return new \DateTimeImmutable($this->raw['published_at']);
+    }
+
+    public function previous(): ?self
+    {
+        return $this->previous;
+    }
+
+    public function compareWithPrevious(): Comparison
+    {
+        return new Comparison($this->previous(), $this);
     }
 }

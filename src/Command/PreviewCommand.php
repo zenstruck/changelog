@@ -7,6 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Zenstruck\Changelog\Comparison;
 use Zenstruck\Changelog\Formatter;
 
 /**
@@ -30,20 +31,19 @@ final class PreviewCommand extends BaseCommand
     {
         $io = new SymfonyStyle($input, $output);
         $repository = $this->fetchRepository($input->getOption('repository'));
-        $comparison = $repository->compare($input->getOption('from'), $input->getOption('to'));
+        $comparison = new Comparison(
+            $input->getOption('from') ?? $repository->releases()->latest(),
+            $input->getOption('to') ?? $repository->defaultBranch()
+        );
         $next = $input->getArgument('next') ? $repository->releases()->next($input->getArgument('next')) : null;
 
-        $io->title('Changelog Generator');
+        $io->title('Changelog Preview');
         $io->comment("Generating <info>{$repository}:{$comparison}</info> changelog");
 
         $formatter = new Formatter();
         $commits = $this->api()->commits($repository, $comparison);
 
-        if ($next) {
-            $io->write($formatter->release($next, $commits, $next->version()->compareWith($comparison->from())));
-        } else {
-            $io->write($formatter->releaseBody($commits));
-        }
+        $io->write($next ? $formatter->release($next, $commits) : $formatter->releaseBody($commits));
 
         $io->success('Done.');
 

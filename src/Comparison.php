@@ -7,13 +7,13 @@ namespace Zenstruck\Changelog;
  */
 final class Comparison
 {
-    private string $to;
     private ?string $from;
+    private string $to;
 
-    public function __construct(string $to, ?string $from = null)
+    public function __construct(?string $from, string $to)
     {
-        $this->to = $to;
         $this->from = $from;
+        $this->to = $to;
     }
 
     public function __toString(): string

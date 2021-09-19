@@ -7,22 +7,25 @@ namespace Zenstruck\Changelog;
  */
 final class ReleaseCollection extends Collection
 {
-    /** @var Release[] */
     private array $releases;
 
     public function __construct(array $releases)
     {
-        $this->releases = \array_map(static fn(array $release) => new Release($release), $releases);
+        $this->releases = $releases;
     }
 
     public function next(string $value): PendingRelease
     {
-        return new PendingRelease($this->nextVersion($value));
+        return new PendingRelease($this->nextVersion($value), $this->latest());
     }
 
     public function latest(): ?Release
     {
-        return $this->releases[0] ?? null;
+        foreach ($this as $release) {
+            return $release;
+        }
+
+        return null;
     }
 
     /**
@@ -30,7 +33,10 @@ final class ReleaseCollection extends Collection
      */
     public function getIterator(): \Traversable
     {
-        return new \ArrayIterator($this->releases);
+        foreach ($this->releases as $key => $release) {
+            // todo improve this?
+            yield new Release($release, isset($this->releases[$key + 1]) ? new Release($this->releases[$key + 1]) : null);
+        }
     }
 
     public function count(): int
