@@ -35,6 +35,6 @@ final class GitHubToken
 
     private static function configFile(): string
     {
-        return "{$_SERVER['HOME']}/.config/zenstruck/changelog.json";
+        return "{$_SERVER['HOME']}/.config/zenstruck/changelog/config.json";
     }
 }
