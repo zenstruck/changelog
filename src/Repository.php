@@ -36,7 +36,7 @@ final class Repository
         return $this->api->releases($this);
     }
 
-    public function compare(?string $from, ?string $to): Comparison
+    public function compare(?string $from = null, ?string $to = null): Comparison
     {
         return new Comparison($from ?? $this->releases()->latest(), $to ?? $this->defaultBranch());
     }

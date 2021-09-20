@@ -37,7 +37,7 @@ final class CreateCommand extends BaseCommand
             throw new \RuntimeException("No releases for {$repository}");
         }
 
-        $io->title('Changelog Preview');
+        $io->title('Create Changelog');
         $io->comment("Generating changelog for <info>{$repository}</info>");
 
         $io->write($contents .= $formatter->changelogHeader());
@@ -52,9 +52,9 @@ final class CreateCommand extends BaseCommand
         }
 
         if ($file = $input->getArgument('file')) {
-            (new Filesystem())->dumpFile(getcwd().'/'.$file, $contents);
+            (new Filesystem())->dumpFile($file, $contents);
 
-            $io->success("Done. Saved as '{$file}'");
+            $io->success("Done. Saved as {$file}");
 
             return self::SUCCESS;
         }

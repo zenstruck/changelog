@@ -4,6 +4,7 @@
 use Symfony\Component\Console\Application;
 use Zenstruck\Changelog\Command\CreateCommand;
 use Zenstruck\Changelog\Command\InitCommand;use Zenstruck\Changelog\Command\PreviewCommand;
+use Zenstruck\Changelog\Command\UpdateCommand;
 
 set_time_limit(0);
 
@@ -21,6 +22,7 @@ $application->addCommands([
     $default = new PreviewCommand(),
     new InitCommand(),
     new CreateCommand(),
+    new UpdateCommand(),
 ]);
 
 $application->setDefaultCommand($default->getName());
