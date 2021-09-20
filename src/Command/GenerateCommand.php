@@ -12,13 +12,13 @@ use Zenstruck\Changelog\Repository;
 /**
  * @author Kevin Bond <kevinbond@gmail.com>
  */
-final class PreviewCommand extends Command
+final class GenerateCommand extends Command
 {
     protected function configure(): void
     {
         $this
-            ->setName('preview')
-            ->setDescription('Preview changelog')
+            ->setName('generate')
+            ->setDescription('Generate changelog')
             ->addOption('repository', 'r', InputOption::VALUE_REQUIRED, 'GitHub repository use (leave blank to detect from current directory)')
             ->addOption('from', 'f', InputOption::VALUE_REQUIRED, 'Release to start changelog from (leave blank for latest)')
             ->addOption('to', 't', InputOption::VALUE_REQUIRED, 'Release to end changelog (leave blank for default branch)')
@@ -34,8 +34,8 @@ final class PreviewCommand extends Command
             $input->getOption('from') ?? $repository->releases()->latest()
         );
 
-        $io->title('Changelog Preview');
-        $io->comment("Preview of <info>{$repository}:{$comparison}</info> changelog");
+        $io->title('Generate Changelog');
+        $io->comment("Generating changelog for <info>{$repository}:{$comparison}</info>");
 
         if ($comparison->isEmpty()) {
             $io->warning('No commits.');
