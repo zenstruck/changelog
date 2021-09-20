@@ -82,7 +82,7 @@ final class GitHubApi
         return null;
     }
 
-    private function request(string $method, string $endpoint, array $options = []): array
+    public function request(string $method, string $endpoint, array $options = []): array
     {
         try {
             return $this->http->request($method, $endpoint, $options)->toArray();

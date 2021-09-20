@@ -40,4 +40,15 @@ final class Repository
     {
         return new Comparison($from ?? $this->releases()->latest(), $to ?? $this->defaultBranch());
     }
+
+    public function createRelease(PendingRelease $release, string $body): Release
+    {
+        return new Release($this->api->request('POST', "/repos/{$this}/releases", [
+            'json' => [
+                'tag_name' => (string) $release->version(),
+                'name' => (string) $release->version(),
+                'body' => $body,
+            ],
+        ]));
+    }
 }

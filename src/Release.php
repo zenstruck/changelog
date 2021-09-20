@@ -40,4 +40,9 @@ class Release
     {
         return new Comparison($this->previous(), $this);
     }
+
+    public function url(): string
+    {
+        return $this->raw['html_url'];
+    }
 }
