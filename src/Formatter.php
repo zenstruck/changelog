@@ -9,15 +9,15 @@ final class Formatter
 {
     public function changelogHeader(): string
     {
-        return "# CHANGELOG\n\n";
+        return "# CHANGELOG\n";
     }
 
     public function release(Release $release, CommitCollection $commits): string
     {
         return <<<EOF
-            {$this->releaseHeader($release)}
+            \n{$this->releaseHeader($release)}
             {$this->releaseBody($commits)}\n
-            [Full Change List]({$release->compareWithPrevious()->url($commits->repository())})\n\n
+            [Full Change List]({$release->compareWithPrevious()->url($commits->repository())})\n
             EOF
         ;
     }
