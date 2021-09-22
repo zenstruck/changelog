@@ -107,12 +107,12 @@ jobs:
         run: |
           ./changelog
 
-#      - name: Test self-update/rollback
-#        if: github.event_name != 'release'
-#        run: |
-#          ./changelog --version
-#          ./changelog self-update
-#          ./changelog --version
+      - name: Test self-update/rollback
+        if: github.event_name != 'release'
+        run: |
+          ./changelog --version
+          ./changelog self-update
+          ./changelog --version
 #          ./changelog self-update --rollback
 #          ./changelog --version
 

@@ -3,6 +3,7 @@
 /vendor/
 /build/
 /box.phar
+/box
 /bin/changelog.phar
 /.php-cs-fixer.cache
 /.phpunit.result.cache

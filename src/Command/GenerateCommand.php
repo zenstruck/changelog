@@ -40,7 +40,7 @@ final class GenerateCommand extends Command
         if ($comparison->isEmpty()) {
             $io->warning('No commits.');
 
-            return self::SUCCESS;
+            return 0;
         }
 
         foreach ($comparison->commits() as $commit) {
@@ -49,6 +49,6 @@ final class GenerateCommand extends Command
 
         $io->success('Done.');
 
-        return self::SUCCESS;
+        return 0;
     }
 }

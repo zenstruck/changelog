@@ -3,6 +3,7 @@
 
 use Symfony\Component\Console\Application;
 use Zenstruck\Changelog\Command\GenerateCommand;
+use Zenstruck\Changelog\Command\SelfUpdateCommand;
 
 set_time_limit(0);
 
@@ -19,6 +20,11 @@ $application = new Application('zenstruck/changelog', '@dev');
 $application->addCommands([
     $default = new GenerateCommand(),
 ]);
+
+if (\Phar::running()) {
+    // only register self update if using as phar
+    $application->add(new SelfUpdateCommand());
+}
 
 $application->setDefaultCommand($default->getName());
 $application->run();
