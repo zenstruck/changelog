@@ -98,10 +98,13 @@ jobs:
           name: changelog.phar
           path: .
 
-      - name: Test init/run
+      - name: Prepare PHAR
         run: |
           mv changelog.phar changelog
           chmod +x changelog
+
+      - name: Test generate
+        run: |
           ./changelog
 
 #      - name: Test self-update/rollback
