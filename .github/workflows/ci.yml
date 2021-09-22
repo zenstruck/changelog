@@ -1,0 +1,126 @@
+name: CI
+
+on:
+  push:
+    branches: [1.x]
+  pull_request:
+  release:
+    types: [created]
+
+jobs:
+  build-phar:
+    name: Build PHAR
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2.3.3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@2.7.0
+        with:
+          php-version: 7.4
+          coverage: none
+
+      - name: Install dependencies
+        uses: ramsey/composer-install@v1
+
+      - name: Download Box
+        run: wget https://github.com/box-project/box/releases/latest/download/box.phar
+
+      - name: Update Version
+        if: github.event_name == 'release'
+        run: sed -i "s/@dev/$TAG/" bin/changelog
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+
+      - name: Compile PHAR
+        run: php box.phar compile
+
+      - uses: actions/upload-artifact@v1
+        name: Upload the PHAR artifact
+        with:
+          name: changelog.phar
+          path: bin/changelog.phar
+
+  composer-validate:
+    name: Validate composer.json
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2.3.3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@2.7.0
+        with:
+          php-version: 7.4
+          coverage: none
+
+      - name: Validate composer.json
+        run: composer validate --strict --no-check-lock
+
+  cs-check:
+    name: PHP Coding Standards
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2.3.3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@2.7.0
+        with:
+          php-version: 7.4
+          coverage: none
+          tools: php-cs-fixer
+
+      - name: Check CS
+        run: php-cs-fixer fix --dry-run --diff
+
+  test-phar:
+    runs-on: ubuntu-latest
+    name: Test PHAR
+    needs:
+      - build-phar
+    steps:
+      - uses: actions/download-artifact@v1
+        with:
+          name: changelog.phar
+          path: .
+
+      - name: Test init/run
+        run: |
+          mv changelog.phar changelog
+          chmod +x changelog
+          ./changelog
+
+#      - name: Test self-update/rollback
+#        if: github.event_name != 'release'
+#        run: |
+#          ./changelog --version
+#          ./changelog self-update
+#          ./changelog --version
+#          ./changelog self-update --rollback
+#          ./changelog --version
+
+  publish-phar:
+    runs-on: ubuntu-latest
+    name: Publish PHAR
+    needs:
+      - cs-check
+      - composer-validate
+      - test-phar
+    if: github.event_name == 'release'
+    steps:
+      - uses: actions/download-artifact@v1
+        with:
+          name: changelog.phar
+          path: .
+
+      - name: Upload changelog.phar
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: changelog.phar
+          asset_name: changelog.phar
+          asset_content_type: application/zip
