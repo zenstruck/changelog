@@ -2,5 +2,7 @@
 /phpunit.xml
 /vendor/
 /build/
+/box.phar
+/bin/changelog.phar
 /.php-cs-fixer.cache
 /.phpunit.result.cache
