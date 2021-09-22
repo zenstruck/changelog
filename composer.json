@@ -14,7 +14,6 @@
     "require": {
         "php": ">=7.4",
         "symfony/console": "^5.3",
-        "symfony/filesystem": "^5.3",
         "symfony/http-client": "^5.3"
     },
     "require-dev": {
