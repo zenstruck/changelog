@@ -47,7 +47,7 @@ final class GenerateCommand extends Command
             $io->writeln($commit->format());
         }
 
-        $io->success('Done.');
+        $io->success("Done. View changeset on Github: {$comparison->url()}");
 
         return 0;
     }
