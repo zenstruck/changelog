@@ -17,7 +17,7 @@ final class GithubApi
     {
         $headers = ['Accept' => 'application/vnd.github.v3+json'];
 
-        if ($token = $_SERVER['GITHUB_API_TOKEN'] ?? $_SERVER['GITHUB_TOKEN'] ?? null) {
+        if ($token = $_SERVER['GITHUB_API_TOKEN'] ?? null) {
             $headers['Authorization'] = "token {$token}";
         }
 

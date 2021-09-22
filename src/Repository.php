@@ -91,7 +91,7 @@ final class Repository
 
     private static function parseRepositoryFrom(string $gitConfigFile): string
     {
-        $ini = \parse_ini_file($gitConfigFile, true);
+        $ini = \parse_ini_file($gitConfigFile, true, \INI_SCANNER_RAW);
 
         foreach ($ini as $section => $items) {
             if (!str_starts_with($section, 'remote')) {
