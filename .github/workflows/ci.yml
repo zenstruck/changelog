@@ -81,6 +81,9 @@ jobs:
     needs:
       - build-phar
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2.3.3
+
       - uses: actions/download-artifact@v1
         with:
           name: changelog.phar
