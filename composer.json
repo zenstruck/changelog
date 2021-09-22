@@ -18,6 +18,7 @@
         "symfony/http-client": "^4.4"
     },
     "require-dev": {
+        "symfony/phpunit-bridge": "^5.3",
         "symfony/var-dumper": "^5.3"
     },
     "conflict": {
@@ -29,6 +30,9 @@
     },
     "autoload": {
         "psr-4": { "Zenstruck\\Changelog\\": "src/" }
+    },
+    "autoload-dev": {
+        "psr-4": { "Zenstruck\\Changelog\\Tests\\": "tests/" }
     },
     "bin": ["bin/changelog"]
 }
