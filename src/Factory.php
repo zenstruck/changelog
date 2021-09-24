@@ -10,9 +10,16 @@ use Zenstruck\Changelog\Github\Repository;
  */
 final class Factory
 {
+    private Configuration $configuration;
+
+    public function __construct()
+    {
+        $this->configuration = new Configuration();
+    }
+
     public function githubApi(): Api
     {
-        return new Api($_SERVER['GITHUB_API_TOKEN'] ?? null);
+        return new Api($_SERVER['GITHUB_API_TOKEN'] ?? $this->configuration->get(Configuration::GITHUB_API_TOKEN));
     }
 
     public function repository(?string $name = null): Repository
