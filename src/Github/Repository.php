@@ -1,6 +1,6 @@
 <?php
 
-namespace Zenstruck\Changelog;
+namespace Zenstruck\Changelog\Github;
 
 /**
  * @author Kevin Bond <kevinbond@gmail.com>
@@ -8,10 +8,10 @@ namespace Zenstruck\Changelog;
 final class Repository
 {
     private array $data;
-    private GithubApi $api;
+    private Api $api;
     private ReleaseCollection $releases;
 
-    public function __construct(array $data, GithubApi $api)
+    public function __construct(array $data, Api $api)
     {
         $this->data = $data;
         $this->api = $api;
@@ -22,9 +22,9 @@ final class Repository
         return $this->data['full_name'];
     }
 
-    public static function create(?string $name = null, ?GithubApi $api = null): self
+    public static function create(?string $name = null, ?Api $api = null): self
     {
-        $api = $api ?? new GithubApi();
+        $api = $api ?? new Api();
 
         if ($name) {
             return new self($api->request('GET', "/repos/{$name}"), $api);
@@ -84,7 +84,7 @@ final class Repository
         return isset($this->data['source']) ? new self($this->data['source'], $this->api) : null;
     }
 
-    public function api(): GithubApi
+    public function api(): Api
     {
         return $this->api;
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Zenstruck\Changelog;
+namespace Zenstruck\Changelog\Github;
 
 /**
  * @author Kevin Bond <kevinbond@gmail.com>

@@ -1,6 +1,6 @@
 <?php
 
-namespace Zenstruck\Changelog;
+namespace Zenstruck\Changelog\Github;
 
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Component\HttpClient\ScopingHttpClient;
@@ -9,7 +9,7 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
 /**
  * @author Kevin Bond <kevinbond@gmail.com>
  */
-final class GithubApi
+final class Api
 {
     private HttpClientInterface $http;
 
