@@ -28,6 +28,6 @@ jobs:
         uses: ramsey/composer-install@v1
 
       - name: Release
-        run: bin/changelog release ${{ github.event.inputs.next }} --target=${{ github.ref }}
+        run: bin/changelog release ${{ github.event.inputs.next }} --target=${GITHUB_REF##*/}
 
 
