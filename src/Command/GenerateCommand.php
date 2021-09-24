@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Zenstruck\Changelog\Github\Repository;
+use Zenstruck\Changelog\Factory;
 
 /**
  * @author Kevin Bond <kevinbond@gmail.com>
@@ -28,7 +28,7 @@ final class GenerateCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $repository = Repository::create($input->getOption('repository'));
+        $repository = (new Factory())->repository($input->getOption('repository'));
         $comparison = $repository->compare(
             $input->getOption('to') ?? $repository->defaultBranch(),
             $input->getOption('from') ?? $repository->releases()->latest()

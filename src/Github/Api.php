@@ -13,15 +13,15 @@ final class Api
 {
     private HttpClientInterface $http;
 
-    public function __construct()
+    public function __construct(?string $token = null, ?HttpClientInterface $http = null)
     {
         $headers = ['Accept' => 'application/vnd.github.v3+json'];
 
-        if ($token = $_SERVER['GITHUB_API_TOKEN'] ?? null) {
+        if ($token) {
             $headers['Authorization'] = "token {$token}";
         }
 
-        $this->http = ScopingHttpClient::forBaseUri(HttpClient::create(), 'https://api.github.com/', [
+        $this->http = ScopingHttpClient::forBaseUri($http ?? HttpClient::create(), 'https://api.github.com/', [
             'headers' => $headers,
         ]);
     }

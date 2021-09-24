@@ -22,22 +22,9 @@ final class Repository
         return $this->data['full_name'];
     }
 
-    public static function create(?string $name = null, ?Api $api = null): self
+    public static function create(string $name, Api $api): self
     {
-        $api = $api ?? new Api();
-
-        if ($name) {
-            return new self($api->request('GET', "/repos/{$name}"), $api);
-        }
-
-        if (!\file_exists($gitConfigFile = \getcwd().'/.git/config')) {
-            // todo recursive look up dir tree (could be in a subdir)
-            throw new \RuntimeException('Not able to find git config to guess repository. Use --repository option.');
-        }
-
-        $repository = self::create(self::parseRepositoryFrom($gitConfigFile));
-
-        return $repository->source() ?? $repository;
+        return new self($api->request('GET', "/repos/{$name}"), $api);
     }
 
     public function compare(string $to, ?string $from = null): Comparison
@@ -87,29 +74,5 @@ final class Repository
     public function api(): Api
     {
         return $this->api;
-    }
-
-    private static function parseRepositoryFrom(string $gitConfigFile): string
-    {
-        $ini = \parse_ini_file($gitConfigFile, true, \INI_SCANNER_RAW);
-
-        foreach ($ini as $section => $items) {
-            if (!str_starts_with($section, 'remote')) {
-                continue;
-            }
-
-            if (!isset($items['url'])) {
-                continue;
-            }
-
-            if (!\preg_match('#github.com[:/]([\w-]+/[\w-]+)#', $items['url'], $matches)) {
-                // not a github repo
-                continue;
-            }
-
-            return $matches[1];
-        }
-
-        throw new \RuntimeException('Unable to find git remote urls');
     }
 }
