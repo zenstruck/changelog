@@ -15,11 +15,13 @@
         "php": ">=7.4",
         "laravel-zero/phar-updater": "^1.1.1",
         "symfony/console": "^4.4",
-        "symfony/http-client": "^4.4"
+        "symfony/http-client": "^4.4",
+        "symfony/polyfill-php80": "^1.16"
     },
     "require-dev": {
         "symfony/phpunit-bridge": "^5.3",
-        "symfony/var-dumper": "^5.3"
+        "symfony/var-dumper": "^5.3",
+        "zenstruck/console-test": "^0.3.0"
     },
     "conflict": {
         "symfony/string": "*"

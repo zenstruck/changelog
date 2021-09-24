@@ -8,8 +8,14 @@
          failOnRisky="true"
          failOnWarning="true"
 >
+    <php>
+        <ini name="error_reporting" value="-1" />
+        <server name="SYMFONY_DEPRECATIONS_HELPER" value="max[self]=0&amp;max[direct]=0"/>
+        <env name="COLUMNS" value="120" />
+    </php>
+
     <testsuites>
-        <testsuite name="zenstruck/changelog Test Suite">
+        <testsuite name="zenstruck/changelog">
             <directory>./tests/</directory>
         </testsuite>
     </testsuites>
