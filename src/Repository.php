@@ -76,7 +76,7 @@ final class Repository
 
     public function releases(): ReleaseCollection
     {
-        return $this->releases ??= new ReleaseCollection($this->api->request('GET', "/repos/{$this}/releases"));
+        return $this->releases ??= new ReleaseCollection($this, $this->api->request('GET', "/repos/{$this}/releases"));
     }
 
     public function source(): ?self

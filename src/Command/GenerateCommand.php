@@ -19,9 +19,9 @@ final class GenerateCommand extends Command
         $this
             ->setName('generate')
             ->setDescription('Generate changelog')
-            ->addOption('repository', 'r', InputOption::VALUE_REQUIRED, 'GitHub repository use (leave blank to detect from current directory)')
-            ->addOption('from', 'f', InputOption::VALUE_REQUIRED, 'Release to start changelog from (leave blank for latest)')
-            ->addOption('to', 't', InputOption::VALUE_REQUIRED, 'Release to end changelog (leave blank for default branch)')
+            ->addOption('repository', 'r', InputOption::VALUE_REQUIRED, 'Github repository use (leave blank to detect from current directory)')
+            ->addOption('from', 'f', InputOption::VALUE_REQUIRED, 'BASE to start changelog from (leave blank for previous release)')
+            ->addOption('to', 't', InputOption::VALUE_REQUIRED, 'HEAD to end changelog (leave blank for default branch)')
         ;
     }
 
@@ -47,7 +47,7 @@ final class GenerateCommand extends Command
             $io->writeln($commit->format());
         }
 
-        $io->success('Done.');
+        $io->success("Done. View changeset on Github: {$comparison->url()}");
 
         return 0;
     }

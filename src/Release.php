@@ -18,4 +18,9 @@ final class Release
     {
         return $this->data['tag_name'];
     }
+
+    public function url(): string
+    {
+        return $this->data['html_url'];
+    }
 }

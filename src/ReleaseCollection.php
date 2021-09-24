@@ -7,11 +7,30 @@ namespace Zenstruck\Changelog;
  */
 final class ReleaseCollection implements \IteratorAggregate
 {
+    private Repository $repository;
     private array $data;
 
-    public function __construct(array $data)
+    public function __construct(Repository $repository, array $data)
     {
+        $this->repository = $repository;
         $this->data = $data;
+    }
+
+    public function create(string $target, string $name, string $body, bool $preRelease = false): Release
+    {
+        return new Release($this->repository->api()->request(
+            'POST',
+            "/repos/{$this->repository}/releases",
+            [
+                'json' => [
+                    'name' => $name,
+                    'target_commitish' => $target,
+                    'tag_name' => $name,
+                    'prerelease' => $preRelease,
+                    'body' => $body,
+                ],
+            ]
+        ));
     }
 
     public function latest(): ?Release
