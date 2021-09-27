@@ -1,6 +1,6 @@
 {
     "name": "zenstruck/changelog",
-    "description": "Generate pretty release changelogs for GitHub using the commit log.",
+    "description": "Generate pretty release changelogs using the commit log and Github API.",
     "homepage": "https://github.com/zenstruck/changelog",
     "type": "library",
     "license": "MIT",
