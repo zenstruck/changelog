@@ -35,7 +35,7 @@ final class SelfUpdateCommand extends Command
             if ($updater->rollback()) {
                 $io->success('Successfully rolled back.');
 
-                return 0;
+                return self::SUCCESS;
             }
 
             throw new \RuntimeException('Could not rollback.');
@@ -48,11 +48,13 @@ final class SelfUpdateCommand extends Command
         if (!$updater->update()) {
             $io->success(\sprintf('You are already using the latest available zenstruck/changelog (%s).', $current));
 
-            return 0;
+            return self::SUCCESS;
         }
 
-        $io->success(\sprintf('Updated zenstruck/changelog to %s.', $updater->getNewVersion()));
+        // cannot use $io->success() it uses symfony/string and older versions may not have it included.
+        // see https://github.com/zenstruck/changelog/pull/2
+        $io->writeln("<info>Successfully updated to {$updater->getNewVersion()}.</info>");
 
-        return 0;
+        return self::SUCCESS;
     }
 }
