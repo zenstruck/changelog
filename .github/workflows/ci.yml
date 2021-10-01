@@ -142,8 +142,8 @@ jobs:
           ./changelog --version
           ./changelog self-update
           ./changelog --version
-          ./changelog self-update --rollback
-          ./changelog --version
+#          ./changelog self-update --rollback
+#          ./changelog --version
 
   publish-phar:
     runs-on: ubuntu-latest
