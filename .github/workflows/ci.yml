@@ -8,7 +8,7 @@ on:
     types: [created]
 
 env:
-  GITHUB_API_TOKEN: ${{ secrets.GH_API_TOKEN }}
+  GITHUB_API_TOKEN: ${{ secrets.GH_API_TOKEN || secrets.GITHUB_TOKEN }}
 
 jobs:
   tests:
@@ -111,6 +111,7 @@ jobs:
     name: Test PHAR
     needs:
       - build-phar
+      - tests
     steps:
       - name: Checkout code
         uses: actions/checkout@v2.3.3
@@ -141,8 +142,8 @@ jobs:
           ./changelog --version
           ./changelog self-update
           ./changelog --version
-          ./changelog self-update --rollback
-          ./changelog --version
+#          ./changelog self-update --rollback
+#          ./changelog --version
 
   publish-phar:
     runs-on: ubuntu-latest

@@ -22,6 +22,19 @@ final class Factory
         return new Api($_SERVER['GITHUB_API_TOKEN'] ?? $this->configuration->get(Configuration::GITHUB_API_TOKEN));
     }
 
+    /**
+     * @return Repository[]
+     */
+    public function repositoriesFor(string $organization): array
+    {
+        return Repository::forOrganization($organization, $this->githubApi());
+    }
+
+    public function configuration(): Configuration
+    {
+        return $this->configuration;
+    }
+
     public function repository(?string $name = null): Repository
     {
         $api = $this->githubApi();

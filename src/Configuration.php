@@ -10,6 +10,7 @@ use Symfony\Component\Filesystem\Filesystem;
 final class Configuration
 {
     public const GITHUB_API_TOKEN = 'github_api_token';
+    public const DEFAULT_DASHBOARD_ORG = 'default_dashboard_org';
 
     /**
      * @param mixed $default
