@@ -59,9 +59,12 @@ Generate a changelog preview in your console:
 
 ```bash
 # outputs changelog for "your/repository" from tag "v1.0.0" to branch "main"
-changelog --repository=your/repository --from=v1.0.0 --to=main
+changelog generate --repository=your/repository --from=v1.0.0 --to=main
 
 # (no arguments), detects repository from current directory, from=last release on Github, to=default branch
+changelog generate
+
+# equivalent to above, "generate" is the "default command"
 changelog
 ```
 
@@ -89,3 +92,15 @@ changelog release major --push # creates v2.0.0 release
 ```
 
 Run `changelog release --help` to see full command documentation.
+
+## Release Status Dashboard
+
+Generate a simple dashboard for a Github organization showing package release statuses.
+
+```bash
+changelog dashboard my-org
+
+# will ask for organization and give option to save as default.
+# if saved, subsequent calls to the command will not require the organization argument
+changelog dashboard
+```

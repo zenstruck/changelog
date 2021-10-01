@@ -27,6 +27,22 @@ final class Repository
         return new self($api->request('GET', "/repos/{$name}"), $api);
     }
 
+    /**
+     * @return self[]
+     */
+    public static function forOrganization(string $name, Api $api): array
+    {
+        return \array_map(
+            static fn(array $data) => new self($data, $api),
+            $api->request('GET', "/orgs/{$name}/repos?type=public")
+        );
+    }
+
+    public function name(): string
+    {
+        return $this->data['name'];
+    }
+
     public function compare(string $to, ?string $from = null): Comparison
     {
         return new Comparison($this, $to, $from);
