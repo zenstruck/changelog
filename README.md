@@ -70,6 +70,22 @@ changelog
 
 Run `changelog generate --help` to see full command documentation.
 
+### Create Changelog File
+
+Create a `CHANGELOG.md` file for the current repository based on existing releases. This
+file is created in the current working directory. It is up to you to add/commit to the repository.
+
+```bash
+# create a CHANGELOG.md
+bin/changelog file:create
+
+# customize the filename
+bin/changelog file:create --filename=changes.md
+
+# exclude releases marked as "pre-release"
+bin/changelog file:create --exclude-pre-releases
+```
+
 ### Create Release
 
 Create (and optionally push) a release changelog (exclude `--push` to preview what the release will look like):
@@ -93,7 +109,7 @@ changelog release major --push # creates v2.0.0 release
 
 Run `changelog release --help` to see full command documentation.
 
-## Release Status Dashboard
+### Release Status Dashboard
 
 Generate a simple dashboard for a Github organization showing package release statuses.
 

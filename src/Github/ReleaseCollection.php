@@ -5,32 +5,22 @@ namespace Zenstruck\Changelog\Github;
 /**
  * @author Kevin Bond <kevinbond@gmail.com>
  */
-final class ReleaseCollection implements \IteratorAggregate
+final class ReleaseCollection implements \IteratorAggregate, \Countable
 {
-    private Repository $repository;
-    private array $data;
+    /** @var Release[] */
+    private array $releases;
 
     public function __construct(Repository $repository, array $data)
     {
-        $this->repository = $repository;
-        $this->data = $data;
+        $this->releases = \array_map(static fn(array $item) => new ExistingRelease($repository, $item), $data);
     }
 
-    public function create(string $target, string $name, string $body, bool $preRelease = false): Release
+    public function withoutPreReleases(): self
     {
-        return new Release($this->repository->api()->request(
-            'POST',
-            "/repos/{$this->repository}/releases",
-            [
-                'json' => [
-                    'name' => $name,
-                    'target_commitish' => $target,
-                    'tag_name' => $name,
-                    'prerelease' => $preRelease,
-                    'body' => $body,
-                ],
-            ]
-        ));
+        $clone = $this;
+        $clone->releases = \array_filter($clone->releases, static fn(Release $release) => !$release->isPreRelease());
+
+        return $clone;
     }
 
     public function latest(): ?Release
@@ -47,8 +37,13 @@ final class ReleaseCollection implements \IteratorAggregate
      */
     public function getIterator(): \Traversable
     {
-        foreach ($this->data as $item) {
-            yield new Release($item);
+        foreach ($this->releases as $release) {
+            yield $release;
         }
+    }
+
+    public function count(): int
+    {
+        return \count($this->releases);
     }
 }

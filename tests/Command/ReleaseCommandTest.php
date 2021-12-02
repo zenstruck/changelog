@@ -26,6 +26,7 @@ final class ReleaseCommandTest extends TestCase
             ->assertOutputContains('f20c760 update by @kbond')
             ->assertOutputContains('[Full Change List](https://github.com/kbond/changelog-test/compare/v1.1.0...v2.0.0)')
             ->assertOutputContains('[NOTE] Preview only, pass --push option to create release on Github.')
+            ->assertOutputNotContains('[changelog] add changelog')
         ;
     }
 

@@ -4,6 +4,7 @@
 /build/
 /box.phar
 /box
+/var
 /bin/changelog.phar
 /.php-cs-fixer.cache
 /.phpunit.result.cache

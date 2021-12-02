@@ -4,6 +4,8 @@
 use Symfony\Component\Console\Application;
 use Zenstruck\Changelog\Command\ConfigureCommand;
 use Zenstruck\Changelog\Command\DashboardCommand;
+use Zenstruck\Changelog\Command\FileCreateCommand;
+use Zenstruck\Changelog\Command\FileUpdateCommand;
 use Zenstruck\Changelog\Command\GenerateCommand;
 use Zenstruck\Changelog\Command\ReleaseCommand;
 use Zenstruck\Changelog\Command\SelfUpdateCommand;
@@ -25,6 +27,8 @@ $application->addCommands([
     new ReleaseCommand(),
     new ConfigureCommand(),
     new DashboardCommand(),
+    new FileCreateCommand(),
+    new FileUpdateCommand(),
 ]);
 
 if (\Phar::running()) {

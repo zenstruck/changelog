@@ -80,6 +80,7 @@ final class DashboardCommand extends Command
             ->compare($repository->defaultBranch(), $latest)
             ->commits()
             ->withoutMerges()
+            ->withoutChangelogUpdates()
             ->count()
         ;
 

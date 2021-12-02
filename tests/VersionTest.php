@@ -23,6 +23,16 @@ final class VersionTest extends TestCase
     /**
      * @test
      */
+    public function next_from(): void
+    {
+        $this->assertSame('v1.0.0', (string) Version::nextFrom('major'));
+        $this->assertSame('v1.2.0', (string) Version::nextFrom('min', 'v1.1.0'));
+        $this->assertSame('v1.1.0', (string) Version::nextFrom('v1.1.0'));
+    }
+
+    /**
+     * @test
+     */
     public function can_parse_parts(): void
     {
         $version = new Version('v1.2.3');
