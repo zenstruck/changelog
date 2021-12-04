@@ -2,6 +2,7 @@
 
 namespace Zenstruck\Changelog;
 
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Zenstruck\Changelog\Github\Api;
 use Zenstruck\Changelog\Github\Repository;
 
@@ -19,7 +20,10 @@ final class Factory
 
     public function githubApi(): Api
     {
-        return new Api($_SERVER['GITHUB_API_TOKEN'] ?? $this->configuration->get(Configuration::GITHUB_API_TOKEN));
+        return new Api(
+            $_SERVER['GITHUB_API_TOKEN'] ?? $this->configuration->get(Configuration::GITHUB_API_TOKEN),
+            new FilesystemAdapter('', 0, \sys_get_temp_dir().'/zenstruck/changelog/github-cache')
+        );
     }
 
     /**
