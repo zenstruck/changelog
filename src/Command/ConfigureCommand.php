@@ -43,6 +43,6 @@ final class ConfigureCommand extends Command
 
         $io->success('Saved personal access token.');
 
-        return 0;
+        return self::SUCCESS;
     }
 }

@@ -61,10 +61,10 @@ final class ReleaseCommand extends Command
         $io->writeln($body[] = '');
         $io->writeln($body[] = "[Full Change List]({$nextComparison->url()})");
 
-        if (!$input->getOption('push')) {
+        if (!$input->isInteractive() && !$input->getOption('push')) {
             $io->note('Preview only, pass --push option to create release on Github.');
 
-            return 0;
+            return self::SUCCESS;
         }
 
         if ($input->isInteractive() && !$io->confirm("Create \"{$next}\" release on github?", false)) {
@@ -77,6 +77,38 @@ final class ReleaseCommand extends Command
 
         $io->success("Released {$next}: {$release->url()}");
 
-        return 0;
+        return self::SUCCESS;
+    }
+
+    protected function interact(InputInterface $input, OutputInterface $output): void
+    {
+        if ($input->getArgument('next')) {
+            return;
+        }
+
+        $repository = (new Factory())->repository($input->getOption('repository'));
+        $latest = (string) $repository->releases()->latest();
+        $io = new SymfonyStyle($input, $output);
+
+        if ($latest) {
+            $io->text("Latest release for <comment>{$repository}</comment>: <info>{$latest}</info>");
+        } else {
+            $io->text('No releases for <comment>{$repository}</comment> yet');
+        }
+
+        $version = new Version($latest ?: 'v0.0.0');
+
+        $next = $io->choice(\sprintf("What's the %s version?", $latest ? 'next' : 'first'), [
+            'bug' => (string) $version->next('bug'),
+            'feature' => (string) $version->next('feature'),
+            'major' => (string) $version->next('major'),
+            'custom' => 'Enter version manually',
+        ]);
+
+        if ('custom' === $next) {
+            $next = $io->ask('Next version');
+        }
+
+        $input->setArgument('next', $next);
     }
 }
