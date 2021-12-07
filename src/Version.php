@@ -29,6 +29,17 @@ final class Version
         return $this->value;
     }
 
+    public static function nextFrom(string $next, ?string $from = null)
+    {
+        $version = new self($next);
+
+        if (!$version->isSemantic()) {
+            $version = $from ? (new self($from))->next($next) : self::first($next);
+        }
+
+        return $version;
+    }
+
     public static function first(string $type): self
     {
         return (new self('v0.0.0'))->next($type);

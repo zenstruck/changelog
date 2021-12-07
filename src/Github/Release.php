@@ -5,22 +5,24 @@ namespace Zenstruck\Changelog\Github;
 /**
  * @author Kevin Bond <kevinbond@gmail.com>
  */
-final class Release
+abstract class Release
 {
-    private array $data;
-
-    public function __construct(array $data)
+    final public function __toString(): string
     {
-        $this->data = $data;
+        return $this->name();
     }
 
-    public function __toString(): string
-    {
-        return $this->data['tag_name'];
-    }
+    abstract public function name(): string;
 
-    public function url(): string
-    {
-        return $this->data['html_url'];
-    }
+    abstract public function tagName(): string;
+
+    abstract public function body(): string;
+
+    abstract public function url(): string;
+
+    abstract public function publishedAt(): \DateTimeImmutable;
+
+    abstract public function isPreRelease(): bool;
+
+    abstract public function compareFrom(?string $from): Comparison;
 }

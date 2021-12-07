@@ -24,6 +24,12 @@ final class Commit
         return str_starts_with($this->summary(), 'Merge pull request #');
     }
 
+    public function isChangelogUpdate(): bool
+    {
+        // TODO improve? template? look at files?
+        return str_starts_with($this->summary(), '[changelog]');
+    }
+
     public function summary(): string
     {
         return \explode("\n", $this->message())[0];

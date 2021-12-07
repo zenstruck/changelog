@@ -9,6 +9,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Zenstruck\Changelog\Factory;
+use Zenstruck\Changelog\Github\PendingRelease;
 use Zenstruck\Changelog\Version;
 
 /**
@@ -34,20 +35,19 @@ final class ReleaseCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $repository = (new Factory())->repository($input->getOption('repository'));
         $from = $input->getOption('from') ?? $repository->releases()->latest();
-        $target = $input->getOption('target') ?? $repository->defaultBranch();
-        $comparison = $repository->compare($target, $from);
-        $next = new Version($input->getArgument('next'));
+        $release = new PendingRelease(
+            $repository,
+            Version::nextFrom($input->getArgument('next'), $from),
+            $input->getOption('target')
+        );
+        $comparison = $release->realComparison($from);
         $body = [];
 
         $io->title('Create release');
 
-        if (!$next->isSemantic()) {
-            $next = $from ? (new Version($from))->next($next) : Version::first($next);
-        }
+        $nextComparison = $release->compareFrom($from);
 
-        $nextComparison = $repository->compare($next, $from);
-
-        $io->comment("Releasing as <info>{$next}</info> (<comment>{$nextComparison}</comment>)");
+        $io->comment("Releasing as <info>{$release}</info> (<comment>{$nextComparison}</comment>)");
         $io->comment("Generating changelog for <info>{$repository}:{$comparison}</info>");
 
         if ($comparison->isEmpty()) {
@@ -67,15 +67,17 @@ final class ReleaseCommand extends Command
             return self::SUCCESS;
         }
 
-        if ($input->isInteractive() && !$io->confirm("Create \"{$next}\" release on github?", false)) {
+        if ($input->isInteractive() && !$io->confirm("Create \"{$release}\" release on github?", false)) {
             $io->warning('Not creating release.');
 
             return 0;
         }
 
-        $release = $repository->releases()->create($target, $next, \implode("\n", $body), $next->isPreRelease());
+        $release->setBody(\implode("\n", $body));
 
-        $io->success("Released {$next}: {$release->url()}");
+        $release = $release->create();
+
+        $io->success("Released {$release}: {$release->url()}");
 
         return self::SUCCESS;
     }
