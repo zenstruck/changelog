@@ -110,7 +110,7 @@ final class Repository
 
     public function releases(): ReleaseCollection
     {
-        return $this->releases ??= new ReleaseCollection($this, $this->api->request('GET', "/repos/{$this}/releases"));
+        return $this->releases ??= new ReleaseCollection($this, $this->api->request('GET', "/repos/{$this}/releases?per_page=100"));
     }
 
     public function source(): ?self
