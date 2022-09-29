@@ -10,10 +10,10 @@ use Zenstruck\Changelog\Command\GenerateCommand;
 use Zenstruck\Changelog\Command\ReleaseCommand;
 use Zenstruck\Changelog\Command\SelfUpdateCommand;
 
-set_time_limit(0);
+\set_time_limit(0);
 
-foreach ([__DIR__ . '/../../../autoload.php', __DIR__ . '/../vendor/autoload.php'] as $autoload) {
-    if (file_exists($autoload)) {
+foreach ([__DIR__.'/../../../autoload.php', __DIR__.'/../vendor/autoload.php'] as $autoload) {
+    if (\file_exists($autoload)) {
         break;
     }
 }
