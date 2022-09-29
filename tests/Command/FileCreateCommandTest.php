@@ -28,7 +28,7 @@ final class FileCreateCommandTest extends FileCommandTest
 
         $this->assertFileDoesNotExist(self::FILE);
 
-        $result = TestCommand::for(new FileCreateCommand())
+        TestCommand::for(new FileCreateCommand())
             ->addOption('filename', 'var/CHANGELOG.md')
             ->addOption('repository', 'kbond/changelog-test')
             ->addOption('verbose')

@@ -24,7 +24,7 @@ final class FileCreateCommand extends Command
             ->setDescription('Create a changelog file for existing releases')
             ->addOption('repository', 'r', InputOption::VALUE_REQUIRED, 'Github repository use (leave blank to detect from current directory)')
             ->addOption('filename', 'f', InputOption::VALUE_REQUIRED, 'The filename (relative to cwd)', 'CHANGELOG.md')
-            ->addOption('exclude-pre-releases', null, InputOption::VALUE_NONE, 'Exclude "pre-releases"')
+            ->addOption('include-pre-releases', null, InputOption::VALUE_NONE, 'Include "pre-releases"')
             ->addOption('remote', null, InputOption::VALUE_OPTIONAL, 'Save to repository (can pass target branch - defaults to default branch)', false)
         ;
     }
@@ -48,7 +48,7 @@ final class FileCreateCommand extends Command
 
         $releases = $repository->releases();
 
-        if ($input->getOption('exclude-pre-releases')) {
+        if (!$input->getOption('include-pre-releases')) {
             $releases = $releases->withoutPreReleases();
         }
 
