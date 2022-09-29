@@ -3,6 +3,7 @@
 namespace Zenstruck\Changelog\Tests\Command;
 
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Path;
 use Zenstruck\Changelog\Command\FileUpdateCommand;
 use Zenstruck\Console\Test\TestCommand;
 
@@ -50,7 +51,7 @@ final class FileUpdateCommandTest extends FileCommandTest
     public function cannot_update_if_no_file(): void
     {
         $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage(\sprintf('%s does not exist, create first.', \realpath(self::FILE)));
+        $this->expectExceptionMessage(\sprintf('Changelog file "%s" does not exist.', Path::canonicalize(self::FILE)));
 
         TestCommand::for(new FileUpdateCommand())
             ->addArgument('feat')
@@ -68,7 +69,7 @@ final class FileUpdateCommandTest extends FileCommandTest
         (new Filesystem())->touch(self::FILE);
 
         $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage(\sprintf('%s is not in the proper format.', \realpath(self::FILE)));
+        $this->expectExceptionMessage('Changelog is not in the proper format.');
 
         TestCommand::for(new FileUpdateCommand())
             ->addArgument('feat')
@@ -86,7 +87,7 @@ final class FileUpdateCommandTest extends FileCommandTest
         (new Filesystem())->dumpFile(self::FILE, "# CHANGELOG\n\n## [v1.2.0](https://github.com/kbond/changelog-test/releases/tag/v1.2.0)");
 
         $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage(\sprintf('%s already contains changes for v1.2.0.', \realpath(self::FILE)));
+        $this->expectExceptionMessage('Changelog already contains changes for v1.2.0.');
 
         TestCommand::for(new FileUpdateCommand())
             ->addArgument('feat')

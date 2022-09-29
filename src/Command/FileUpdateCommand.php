@@ -42,7 +42,7 @@ final class FileUpdateCommand extends Command
             throw new \RuntimeException('No existing releases.');
         }
 
-        $file = new ChangelogFile($repository, $filename);
+        $file = ChangelogFile::fromFile($repository, $filename);
         $release = new PendingRelease(
             $repository,
             Version::nextFrom($input->getArgument('next'), $latest),
@@ -54,6 +54,8 @@ final class FileUpdateCommand extends Command
         foreach ($file->update($release, $latest) as $line) {
             $io->writeln($line);
         }
+
+        $file->saveToFile($filename);
 
         $io->success("Updated {$filename} with {$release}.");
 

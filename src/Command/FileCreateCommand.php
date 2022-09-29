@@ -47,11 +47,13 @@ final class FileCreateCommand extends Command
             $releases = $releases->withoutPreReleases();
         }
 
-        $file = new ChangelogFile($repository, $filename);
+        $file = new ChangelogFile($repository);
 
         foreach ($file->create($releases) as $line) {
             $io->writeln($line, OutputInterface::VERBOSITY_VERBOSE);
         }
+
+        $file->saveToFile($filename);
 
         $io->success("Created {$filename}.");
 
