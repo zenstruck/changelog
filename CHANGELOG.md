@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## [v1.4.0](https://github.com/zenstruck/changelog/releases/tag/v1.4.0)
+
+September 29th, 2022 - [v1.3.0...v1.4.0](https://github.com/zenstruck/changelog/compare/v1.3.0...v1.4.0)
+
+* 490d25a [BC BREAK] exclude pre-releases by default in `file:create` (#12) by @kbond
+* 6eeef50 [feature] add changelog column to `dashboard` command (#12) by @kbond
+* 1d85569 [minor] use progressbar for `file:create` (#12) by @kbond
+* f89966b [bug] include max releases allowed (#12) by @kbond
+
 ## [v1.3.0](https://github.com/zenstruck/changelog/releases/tag/v1.3.0)
 
 September 29th, 2022 - [v1.2.0...v1.3.0](https://github.com/zenstruck/changelog/compare/v1.2.0...v1.3.0)
