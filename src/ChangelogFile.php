@@ -21,7 +21,7 @@ final class ChangelogFile
         $this->content = $content;
     }
 
-    public static function fromFile(Repository $repository, string $filename): self
+    public static function fromLocalFile(Repository $repository, string $filename): self
     {
         if (!\file_exists($filename)) {
             throw new \RuntimeException("Changelog file \"{$filename}\" does not exist.");
@@ -30,9 +30,19 @@ final class ChangelogFile
         return new self($repository, \file_get_contents($filename));
     }
 
-    public function saveToFile(string $filename): void
+    public static function fromRepositoryFile(Repository $repository, string $path, ?string $target = null): self
+    {
+        return new self($repository, $repository->getFile($path, $target)->content());
+    }
+
+    public function saveToLocalFile(string $filename): void
     {
         \file_put_contents($filename, $this->content);
+    }
+
+    public function saveToRepositoryFile(string $filename, ?string $target = null): void
+    {
+        $this->repository->saveFile($filename, '[changelog] update changelog [skip ci]', $this->content, $target);
     }
 
     /**

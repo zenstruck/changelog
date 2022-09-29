@@ -2,6 +2,8 @@
 
 namespace Zenstruck\Changelog\Github;
 
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+
 /**
  * @author Kevin Bond <kevinbond@gmail.com>
  */
@@ -70,6 +72,35 @@ final class Repository
                 'headers' => ['Accept' => 'application/vnd.github.groot-preview+json'],
             ])
         );
+    }
+
+    public function saveFile(string $path, string $message, string $content, ?string $branch = null): void
+    {
+        try {
+            $existingFile = $this->getFile($path, $branch);
+        } catch (ClientExceptionInterface $e) {
+            if (404 !== $e->getResponse()->getStatusCode()) {
+                throw $e;
+            }
+
+            $existingFile = null;
+        }
+
+        $this->api->request('PUT', "/repos/{$this}/contents/{$path}", [
+            'json' => \array_filter([
+                'content' => \base64_encode($content),
+                'message' => $message,
+                'branch' => $branch,
+                'sha' => $existingFile ? $existingFile->sha() : null,
+            ]),
+        ]);
+    }
+
+    public function getFile(string $path, ?string $branch = null): File
+    {
+        $ref = $branch ? "?ref={$branch}" : '';
+
+        return new File($this->api->request('GET', "/repos/{$this}/contents/{$path}$ref"));
     }
 
     public function defaultBranch(): string

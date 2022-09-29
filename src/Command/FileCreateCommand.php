@@ -25,6 +25,7 @@ final class FileCreateCommand extends Command
             ->addOption('repository', 'r', InputOption::VALUE_REQUIRED, 'Github repository use (leave blank to detect from current directory)')
             ->addOption('filename', 'f', InputOption::VALUE_REQUIRED, 'The filename (relative to cwd)', 'CHANGELOG.md')
             ->addOption('exclude-pre-releases', null, InputOption::VALUE_NONE, 'Exclude "pre-releases"')
+            ->addOption('remote', null, InputOption::VALUE_OPTIONAL, 'Save to repository (can pass target branch - defaults to default branch)', false)
         ;
     }
 
@@ -35,9 +36,13 @@ final class FileCreateCommand extends Command
         $filename = Path::canonicalize(\sprintf('%s/%s', \getcwd(), $input->getOption('filename')));
         $repository = (new Factory())->repository($input->getOption('repository'));
 
+        if (false !== $remote = $input->getOption('remote')) {
+            $remote = $remote ?? $repository->defaultBranch();
+        }
+
         $io->title("Create CHANGELOG file for {$repository}");
 
-        if ($fs->exists($filename) && (!$input->isInteractive() || !$io->confirm('Changelog file already exists, override?', false))) {
+        if (!$remote && $fs->exists($filename) && (!$input->isInteractive() || !$io->confirm('Changelog file already exists, override?', false))) {
             throw new \RuntimeException('Aborting as the changelog file already exists.');
         }
 
@@ -53,7 +58,17 @@ final class FileCreateCommand extends Command
             $io->writeln($line, OutputInterface::VERBOSITY_VERBOSE);
         }
 
-        $file->saveToFile($filename);
+        if ($remote) {
+            $io->comment(\sprintf('Pushing <comment>%s</comment> to <info>%s:%s</info>', $input->getOption('filename'), $repository, $remote));
+
+            $file->saveToRepositoryFile($input->getOption('filename'), $remote);
+
+            $io->success("Pushed {$input->getOption('filename')} to {$repository}.");
+
+            return self::SUCCESS;
+        }
+
+        $file->saveToLocalFile($filename);
 
         $io->success("Created {$filename}.");
 
