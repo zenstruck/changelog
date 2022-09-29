@@ -13,6 +13,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Zenstruck\Changelog\Configuration;
 use Zenstruck\Changelog\Factory;
+use Zenstruck\Changelog\Github\Release;
 use Zenstruck\Changelog\Github\Repository;
 
 /**
@@ -57,7 +58,7 @@ final class DashboardCommand extends Command
 
         $table = new Table($output->section());
         $table->setHeaderTitle($organization);
-        $table->setHeaders(['Repository', 'Status', 'Changelog?']);
+        $table->setHeaders(['Repository', 'Latest Release', 'Status', 'Changelog?']);
 
         $table->render();
 
@@ -69,8 +70,9 @@ final class DashboardCommand extends Command
 
             $table->appendRow([
                 (string) $repository,
+                self::formatLatest($repository->releases()->latest()),
                 self::releaseStatus($repository),
-                new TableCell(self::hasChangelog($repository) ? '<info>✔</info>' : '<fg=red>✖</>', [
+                new TableCell(self::formatChangelog($repository), [
                     'style' => new TableCellStyle(['align' => 'center']),
                 ]),
             ]);
@@ -79,14 +81,27 @@ final class DashboardCommand extends Command
         return self::SUCCESS;
     }
 
-    private static function hasChangelog(Repository $repository): bool
+    private static function formatLatest(?Release $release): string
+    {
+        if (!$release) {
+            return '<error>none</>';
+        }
+
+        if ($release->isPreRelease()) {
+            return "<comment>{$release}</comment>";
+        }
+
+        return "<info>{$release}</info>";
+    }
+
+    private static function formatChangelog(Repository $repository): string
     {
         try {
-            $repository->getFile('CHANGELOG.md');
+            $file = $repository->getFile('CHANGELOG.md');
 
-            return true;
+            return str_contains($file->content(), "[{$repository->releases()->latest()}]") ? '<info>✔</info>' : '<comment>!</comment>';
         } catch (ClientExceptionInterface $e) {
-            return false;
+            return '<fg=red>✖</>';
         }
     }
 
