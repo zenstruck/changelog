@@ -10,15 +10,15 @@ use Zenstruck\Changelog\Version;
 final class PendingRelease extends Release
 {
     private Version $version;
-    private Repository $repository;
     private string $target;
     private \DateTimeImmutable $publishedAt;
     private string $body = '';
 
     public function __construct(Repository $repository, Version $version, ?string $target = null)
     {
+        parent::__construct($repository);
+
         $this->version = $version;
-        $this->repository = $repository;
         $this->target = $target ?? $repository->defaultBranch();
         $this->publishedAt = new \DateTimeImmutable();
     }
@@ -38,11 +38,6 @@ final class PendingRelease extends Release
                 ],
             ]
         ));
-    }
-
-    public function compareFrom(?string $from): Comparison
-    {
-        return $this->repository->compare($this, $from);
     }
 
     public function realComparison(?string $from): Comparison

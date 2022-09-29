@@ -7,18 +7,13 @@ namespace Zenstruck\Changelog\Github;
  */
 final class ExistingRelease extends Release
 {
-    private Repository $repository;
     private array $data;
 
     public function __construct(Repository $repository, array $data)
     {
-        $this->repository = $repository;
-        $this->data = $data;
-    }
+        parent::__construct($repository);
 
-    public function compareFrom(?string $from): Comparison
-    {
-        return $this->repository->compare($this, $from);
+        $this->data = $data;
     }
 
     public function name(): string
