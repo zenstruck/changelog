@@ -8,8 +8,11 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
+use Zenstruck\Changelog\ChangelogFile;
 use Zenstruck\Changelog\Factory;
 use Zenstruck\Changelog\Github\PendingRelease;
+use Zenstruck\Changelog\Github\Release;
 use Zenstruck\Changelog\Version;
 
 /**
@@ -27,6 +30,7 @@ final class ReleaseCommand extends Command
             ->addOption('from', 'f', InputOption::VALUE_REQUIRED, 'BASE to start release changelog from (leave blank for previous release)')
             ->addOption('target', 't', InputOption::VALUE_REQUIRED, 'Release target (leave blank for default branch)')
             ->addOption('push', null, InputOption::VALUE_NONE, 'Create the release on Github')
+            ->addOption('file', null, InputOption::VALUE_REQUIRED, 'The changelog file', 'CHANGELOG.md')
         ;
     }
 
@@ -103,6 +107,24 @@ final class ReleaseCommand extends Command
             $io->warning('Not creating release.');
 
             return self::SUCCESS;
+        }
+
+        try {
+            $file = $repository->getFile($input->getOption('file'), $target);
+        } catch (ClientExceptionInterface $e) {
+            $file = null;
+        }
+
+        if ($input->isInteractive() && $file && $from instanceof Release && $io->confirm("Update \"{$file}\"?")) {
+            $changelogFile = ChangelogFile::fromRepositoryFile($repository, $file, $target);
+
+            foreach ($changelogFile->update($release, $from) as $line) {
+                $io->writeln($line, OutputInterface::VERBOSITY_VERBOSE);
+            }
+
+            $io->comment(\sprintf('Saving <comment>%s</comment> to <info>%s:%s</info>', $file, $repository, $target));
+
+            $changelogFile->saveToRepositoryFile($file, $target);
         }
 
         $release = $release->setBody($body)->create();

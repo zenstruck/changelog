@@ -40,9 +40,9 @@ final class ChangelogFile
         \file_put_contents($filename, $this->content);
     }
 
-    public function saveToRepositoryFile(string $filename, ?string $target = null): void
+    public function saveToRepositoryFile(string $path, ?string $target = null): void
     {
-        $this->repository->saveFile($filename, '[changelog] update changelog [skip ci]', $this->content, $target);
+        $this->repository->saveFile($path, '[changelog] update changelog [skip ci]', $this->content, $target);
     }
 
     /**
