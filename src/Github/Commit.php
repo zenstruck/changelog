@@ -92,7 +92,7 @@ final class Commit
 
     public function authors(): array
     {
-        return \array_merge([$this->author()], $this->coAuthors());
+        return \array_unique(\array_merge([$this->author()], $this->coAuthors()));
     }
 
     public function format(): string
