@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## [v1.3.0](https://github.com/zenstruck/changelog/releases/tag/v1.3.0)
+
+September 29th, 2022 - [v1.2.0...v1.3.0](https://github.com/zenstruck/changelog/compare/v1.2.0...v1.3.0)
+
+* 9f9550d [bug] remove duplicate authors (#11) by @kbond
+* 4e72e76 [feature] add ability to update remote changelog during release (#11) by @kbond
+* cd4b2a1 [feature] add option to save changelog file directly to repository (#11) by @kbond
+* 66ab62e [minor] refactor ChangelogFile (#11) by @kbond
+* 7ede860 [minor] cs adjustments (#11) by @kbond
+* 4843e49 [minor] ci config adjustments (#11) by @kbond
+* 03e2d5d [feature] preview changelog before choosing next version (#11) by @kbond
+* 6e21957 [feature] add file:create/update commands (#8) by @kbond
+
 ## [v1.2.0](https://github.com/zenstruck/changelog/releases/tag/v1.2.0)
 
 December 4th, 2021 - [v1.1.0...v1.2.0](https://github.com/zenstruck/changelog/compare/v1.1.0...v1.2.0)
