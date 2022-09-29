@@ -54,9 +54,13 @@ final class FileCreateCommand extends Command
 
         $file = new ChangelogFile($repository);
 
+        $io->progressStart(\count($releases));
+
         foreach ($file->create($releases) as $line) {
-            $io->writeln($line, OutputInterface::VERBOSITY_VERBOSE);
+            $io->progressAdvance();
         }
+
+        $io->progressFinish();
 
         if ($remote) {
             $io->comment(\sprintf('Pushing <comment>%s</comment> to <info>%s:%s</info>', $input->getOption('filename'), $repository, $remote));
