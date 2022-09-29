@@ -41,12 +41,10 @@ final class FileCreateCommandTest extends FileCommandTest
         $fileContents = \file_get_contents(self::FILE);
 
         foreach ($expectedOutput as $expected) {
-            $result->assertOutputContains($expected);
             $this->assertStringContainsString($expected, $fileContents);
         }
 
         foreach ($unexpectedOutput as $expected) {
-            $result->assertOutputNotContains($expected);
             $this->assertStringNotContainsString($expected, $fileContents);
         }
     }
