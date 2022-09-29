@@ -66,6 +66,7 @@ final class VersionTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider invalidVersions
      */
     public function version_parse_failure(Version $version): void
@@ -111,6 +112,7 @@ final class VersionTest extends TestCase
 
     /**
      * @test
+     *
      * @dataProvider invalidStabilities
      */
     public function stability_parse_failure(Version $version): void

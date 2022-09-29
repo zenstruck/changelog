@@ -7,9 +7,21 @@ namespace Zenstruck\Changelog\Github;
  */
 abstract class Release
 {
+    protected Repository $repository;
+
+    public function __construct(Repository $repository)
+    {
+        $this->repository = $repository;
+    }
+
     final public function __toString(): string
     {
         return $this->name();
+    }
+
+    final public function compareFrom(?string $from): Comparison
+    {
+        return $this->repository->compare($this, $from);
     }
 
     abstract public function name(): string;
@@ -23,6 +35,4 @@ abstract class Release
     abstract public function publishedAt(): \DateTimeImmutable;
 
     abstract public function isPreRelease(): bool;
-
-    abstract public function compareFrom(?string $from): Comparison;
 }

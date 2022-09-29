@@ -28,6 +28,7 @@ final class FileUpdateCommand extends Command
             ->addOption('repository', 'r', InputOption::VALUE_REQUIRED, 'Github repository use (leave blank to detect from current directory)')
             ->addOption('filename', 'f', InputOption::VALUE_REQUIRED, 'The filename (relative to cwd)', 'CHANGELOG.md')
             ->addOption('target', 't', InputOption::VALUE_REQUIRED, 'Release target (leave blank for default branch)')
+            ->addOption('remote', null, null, 'Save to repository')
         ;
     }
 
@@ -37,23 +38,33 @@ final class FileUpdateCommand extends Command
         $filename = Path::canonicalize(\sprintf('%s/%s', \getcwd(), $input->getOption('filename')));
         $repository = (new Factory())->repository($input->getOption('repository'));
         $latest = $repository->releases()->latest();
+        $target = $input->getOption('target');
+        $remote = $input->getOption('remote');
 
         if (!$latest) {
             throw new \RuntimeException('No existing releases.');
         }
 
-        $file = new ChangelogFile($repository, $filename);
-        $release = new PendingRelease(
-            $repository,
-            Version::nextFrom($input->getArgument('next'), $latest),
-            $input->getOption('target')
-        );
+        $file = $remote ? ChangelogFile::fromRepositoryFile($repository, $input->getOption('filename'), $target) : ChangelogFile::fromLocalFile($repository, $filename);
+        $release = new PendingRelease($repository, Version::nextFrom($input->getArgument('next'), $latest), $target);
 
         $io->title("Update CHANGELOG file for {$repository}");
 
         foreach ($file->update($release, $latest) as $line) {
             $io->writeln($line);
         }
+
+        if ($remote) {
+            $io->comment(\sprintf('Saving <comment>%s</comment> to <info>%s:%s</info>', $input->getOption('filename'), $repository, $target));
+
+            $file->saveToRepositoryFile($input->getOption('filename'), $target);
+
+            $io->success("Saved {$input->getOption('filename')} to {$repository}.");
+
+            return self::SUCCESS;
+        }
+
+        $file->saveToLocalFile($filename);
 
         $io->success("Updated {$filename} with {$release}.");
 

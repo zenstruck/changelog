@@ -2,7 +2,6 @@
 
 namespace Zenstruck\Changelog;
 
-use Symfony\Component\Filesystem\Filesystem;
 use Zenstruck\Changelog\Github\PendingRelease;
 use Zenstruck\Changelog\Github\Release;
 use Zenstruck\Changelog\Github\ReleaseCollection;
@@ -14,12 +13,36 @@ use Zenstruck\Changelog\Github\Repository;
 final class ChangelogFile
 {
     private Repository $repository;
-    private string $filename;
+    private string $content;
 
-    public function __construct(Repository $repository, string $filename)
+    public function __construct(Repository $repository, string $content = '')
     {
         $this->repository = $repository;
-        $this->filename = $filename;
+        $this->content = $content;
+    }
+
+    public static function fromLocalFile(Repository $repository, string $filename): self
+    {
+        if (!\file_exists($filename)) {
+            throw new \RuntimeException("Changelog file \"{$filename}\" does not exist.");
+        }
+
+        return new self($repository, \file_get_contents($filename));
+    }
+
+    public static function fromRepositoryFile(Repository $repository, string $path, ?string $target = null): self
+    {
+        return new self($repository, $repository->getFile($path, $target)->content());
+    }
+
+    public function saveToLocalFile(string $filename): void
+    {
+        \file_put_contents($filename, $this->content);
+    }
+
+    public function saveToRepositoryFile(string $path, ?string $target = null): void
+    {
+        $this->repository->saveFile($path, '[changelog] update changelog [skip ci]', $this->content, $target);
     }
 
     /**
@@ -42,7 +65,7 @@ final class ChangelogFile
             }
         }
 
-        (new Filesystem())->dumpFile($this->filename, \implode("\n", $contents));
+        $this->content = \implode("\n", $contents);
     }
 
     /**
@@ -50,21 +73,14 @@ final class ChangelogFile
      */
     public function update(Release $to, Release $from): iterable
     {
-        $fs = new Filesystem();
-
-        if (!$fs->exists($this->filename)) {
-            throw new \RuntimeException("{$this->filename} does not exist, create first.");
-        }
-
-        $contents = \file_get_contents($this->filename);
         $updates = [];
 
-        if (!str_contains($contents, $this->fileHeader())) {
-            throw new \RuntimeException("{$this->filename} is not in the proper format.");
+        if (!str_contains($this->content, $this->fileHeader())) {
+            throw new \RuntimeException('Changelog is not in the proper format.');
         }
 
-        if (str_contains($contents, "[{$to}]")) {
-            throw new \RuntimeException("{$this->filename} already contains changes for {$to}.");
+        if (str_contains($this->content, "[{$to}]")) {
+            throw new \RuntimeException("Changelog already contains changes for {$to}.");
         }
 
         yield $updates[] = $this->fileHeader();
@@ -73,7 +89,7 @@ final class ChangelogFile
             yield $updates[] = $line;
         }
 
-        $fs->dumpFile($this->filename, \str_replace($this->fileHeader(), \implode("\n", $updates), $contents));
+        $this->content = \str_replace($this->fileHeader(), \implode("\n", $updates), $this->content);
     }
 
     private function fileHeader(): string

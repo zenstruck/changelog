@@ -56,7 +56,7 @@ jobs:
         uses: ramsey/composer-install@v1
 
       - name: Download Box
-        run: wget https://github.com/box-project/box/releases/latest/download/box.phar
+        run: wget https://github.com/box-project/box/releases/download/3.16.0/box.phar
 
       - name: Update Version
         if: github.event_name == 'release'
@@ -90,21 +90,9 @@ jobs:
         run: composer validate --strict --no-check-lock
 
   cs-check:
-    name: PHP Coding Standards
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2.3.3
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@2.7.0
-        with:
-          php-version: 7.4
-          coverage: none
-          tools: php-cs-fixer
-
-      - name: Check CS
-        run: php-cs-fixer fix --dry-run --diff
+    uses: zenstruck/.github/.github/workflows/php-cs-fixer.yml@main
+    with:
+      php: 7.4
 
   test-phar:
     runs-on: ubuntu-latest
