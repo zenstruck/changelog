@@ -4,10 +4,13 @@ namespace Zenstruck\Changelog\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Helper\TableCell;
+use Symfony\Component\Console\Helper\TableCellStyle;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Zenstruck\Changelog\Configuration;
 use Zenstruck\Changelog\Factory;
 use Zenstruck\Changelog\Github\Repository;
@@ -54,7 +57,7 @@ final class DashboardCommand extends Command
 
         $table = new Table($output->section());
         $table->setHeaderTitle($organization);
-        $table->setHeaders(['Repository', 'Status']);
+        $table->setHeaders(['Repository', 'Status', 'Changelog?']);
 
         $table->render();
 
@@ -64,10 +67,27 @@ final class DashboardCommand extends Command
                 continue;
             }
 
-            $table->appendRow([(string) $repository, self::releaseStatus($repository)]);
+            $table->appendRow([
+                (string) $repository,
+                self::releaseStatus($repository),
+                new TableCell(self::hasChangelog($repository) ? '<info>✔</info>' : '<fg=red>✖</>', [
+                    'style' => new TableCellStyle(['align' => 'center']),
+                ]),
+            ]);
         }
 
         return self::SUCCESS;
+    }
+
+    private static function hasChangelog(Repository $repository): bool
+    {
+        try {
+            $repository->getFile('CHANGELOG.md');
+
+            return true;
+        } catch (ClientExceptionInterface $e) {
+            return false;
+        }
     }
 
     private static function releaseStatus(Repository $repository): string

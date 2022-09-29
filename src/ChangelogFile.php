@@ -57,11 +57,13 @@ final class ChangelogFile
         $releases = \iterator_to_array($releases);
         $contents = [];
 
-        yield $contents[] = $this->fileHeader();
+        $contents[] = $this->fileHeader();
 
         foreach ($releases as $key => $release) {
+            yield $release;
+
             foreach ($this->formatRelease($release, $releases[$key + 1] ?? null) as $line) {
-                yield $contents[] = $line;
+                $contents[] = $line;
             }
         }
 
