@@ -10,7 +10,7 @@ final class Commit
     private Repository $repository;
     private array $data;
     private PullRequestCollection $pullRequests;
-    private array $coAuthors;
+    private array $authors;
 
     public function __construct(Repository $repository, array $data)
     {
@@ -59,40 +59,43 @@ final class Commit
         return $this->data['commit']['author']['name'];
     }
 
-    public function coAuthors(): array
-    {
-        if (isset($this->coAuthors)) {
-            return $this->coAuthors;
-        }
-
-        if (!\preg_match_all('#co-authored-by:(.+)#i', $this->message(), $matches)) {
-            return $this->coAuthors = [];
-        }
-
-        return $this->coAuthors = \array_map(
-            function($value) {
-                if (!\preg_match('#<(.+)>#', $value = \trim($value), $matches)) {
-                    return $value;
-                }
-
-                $email = $matches[1];
-
-                if (\preg_match('#([\w-]+)@users\.noreply\.github\.com#', $email, $matches)) {
-                    // parsed login from noreply email
-                    return "@{$matches[1]}";
-                }
-
-                $login = $this->repository->api()->loginForEmail($email);
-
-                return $login ? "@{$login}" : $value;
-            },
-            $matches[1]
-        );
-    }
-
     public function authors(): array
     {
-        return \array_unique(\array_merge([$this->author()], $this->coAuthors()));
+        if (isset($this->authors)) {
+            return $this->authors;
+        }
+
+        if (!str_contains(\mb_strtolower($this->message()), 'co-authored-by')) {
+            return $this->authors = [$this->author()];
+        }
+
+        // use graphql to get the users:
+        $response = $this->repository->api()->graphQlQuery(<<<EOF
+            {
+              repository(owner: "{$this->repository->owner()}", name: "{$this->repository->name()}") {
+                object(oid: "{$this->sha()}") {
+                  ... on Commit {
+                    authors(last: 100) {
+                      edges {
+                        node {
+                          user {
+                            login
+                          }
+                          email
+                          name
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+        EOF);
+
+        return $this->authors = \array_map(
+            fn(array $e) => isset($e['node']['user']['login']) ? '@'.$e['node']['user']['login'] : $e['node']['name'] ?? $e['node']['email'],
+            $response['data']['repository']['object']['authors']['edges']
+        );
     }
 
     public function format(): string

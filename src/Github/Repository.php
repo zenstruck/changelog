@@ -45,9 +45,19 @@ final class Repository
         return $this->data['name'];
     }
 
+    public function owner(): string
+    {
+        return $this->data['owner']['login'];
+    }
+
     public function compare(string $to, ?string $from = null): Comparison
     {
         return new Comparison($this, $to, $from);
+    }
+
+    public function commit(string $ref): Commit
+    {
+        return new Commit($this, $this->api->request('GET', "/repos/{$this}/commits/{$ref}"));
     }
 
     public function commits(Comparison $comparison): CommitCollection
