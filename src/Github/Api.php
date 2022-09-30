@@ -66,6 +66,11 @@ final class Api
         });
     }
 
+    public function graphQlQuery(string $query): array
+    {
+        return $this->request('POST', '/graphql', ['json' => ['query' => $query]]);
+    }
+
     private function rawRequest(string $method, string $endpoint, array $options = []): ResponseInterface
     {
         return $this->http->request($method, $endpoint, $options);
