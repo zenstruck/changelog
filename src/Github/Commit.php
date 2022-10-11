@@ -108,6 +108,8 @@ final class Commit
             $message .= " {$pr}";
         }
 
+        $message = \str_replace(['[feat]', '[fix]'], ['[feature]', '[bug]'], $message);
+
         return \sprintf('%s by %s', $message, \implode(', ', $this->authors()));
     }
 
