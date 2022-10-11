@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## [v1.5.2](https://github.com/zenstruck/changelog/releases/tag/v1.5.2)
+
+October 11th, 2022 - [v1.5.1...v1.5.2](https://github.com/zenstruck/changelog/compare/v1.5.1...v1.5.2)
+
+* 4c34499 [doc] typo (#17) by @kbond
+* 603ec3b [minor] replace `[feat]|[fix]` with `[feature]|[bug]` (#16) by @kbond
+
 ## [v1.5.1](https://github.com/zenstruck/changelog/releases/tag/v1.5.1)
 
 September 30th, 2022 - [v1.5.0...v1.5.1](https://github.com/zenstruck/changelog/compare/v1.5.0...v1.5.1)
