@@ -2,6 +2,8 @@
 
 namespace Zenstruck\Changelog;
 
+use Composer\Semver\Semver;
+
 /**
  * @author Kevin Bond <kevinbond@gmail.com>
  */
@@ -112,6 +114,15 @@ final class Version
         }
 
         return false;
+    }
+
+    public function matches(string $branch): bool
+    {
+        try {
+            return Semver::satisfies($this->value, $branch);
+        } catch (\UnexpectedValueException $e) {
+            return false;
+        }
     }
 
     /**
