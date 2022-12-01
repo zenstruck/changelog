@@ -230,4 +230,33 @@ final class VersionTest extends TestCase
         $this->assertTrue((new Version('v0.2.0'))->isPreRelease());
         $this->assertTrue((new Version('0.0.1'))->isPreRelease());
     }
+
+    /**
+     * @test
+     *
+     * @dataProvider matchesBranchProvider
+     */
+    public function matches_branch(string $version, string $branch, bool $expected): void
+    {
+        $version = new Version($version);
+
+        $this->assertSame($expected, $version->matches($branch));
+    }
+
+    public static function matchesBranchProvider(): iterable
+    {
+        yield ['v1.0.0', '1.x', true];
+        yield ['v1.0.0', 'v1.x', true];
+        yield ['v1.0.0', '1.X', true];
+        yield ['1.0.0', '1.x', true];
+        yield ['v2.0.0', '1.x', false];
+        yield ['v1.3.16', '1.x', true];
+        yield ['1.3.16', '1.x', true];
+        yield ['v1.3.16', '1.3.x', true];
+        yield ['v1.3.16', '1.4.x', false];
+        yield ['v1.3.16', '2.x', false];
+        yield ['v0.5.0', '1.x', false];
+        yield ['v0.5.0', '0.x', true];
+        yield ['foobar', '2.x', false];
+    }
 }
