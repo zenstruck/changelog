@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## [v1.6.0](https://github.com/zenstruck/changelog/releases/tag/v1.6.0)
+
+December 1st, 2022 - [v1.5.2...v1.6.0](https://github.com/zenstruck/changelog/compare/v1.5.2...v1.6.0)
+
+* 56b4150 feat: add `Version::matches()` (#18) by @kbond
+* b667b65 feat(dashboard): add CI status column (#19) by @kbond
+* 8580aa1 fix(tests): adjust expected commit message (#19) by @kbond
+* 38a04c2 [minor] adjust commit message for "Conventional Commits" (#19) by @kbond
+
 ## [v1.5.2](https://github.com/zenstruck/changelog/releases/tag/v1.5.2)
 
 October 11th, 2022 - [v1.5.1...v1.5.2](https://github.com/zenstruck/changelog/compare/v1.5.1...v1.5.2)
