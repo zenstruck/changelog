@@ -42,7 +42,7 @@ final class ChangelogFile
 
     public function saveToRepositoryFile(string $path, ?string $target = null): void
     {
-        $this->repository->saveFile($path, '[changelog] update changelog [skip ci]', $this->content, $target);
+        $this->repository->saveFile($path, 'changelog: update [skip ci]', $this->content, $target);
     }
 
     /**
