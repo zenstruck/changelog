@@ -41,7 +41,7 @@ final class GenerateCommandTest extends TestCase
             ->execute()
             ->assertSuccessful()
             ->assertOutputContains('Generating changelog for zenstruck/.github:main')
-            ->assertOutputContains('87cc344 Create FUNDING.yml by @kbond')
+            ->assertOutputContains('f9489f5 Update MAINTENANCE.md by @kbond')
             ->assertOutputContains('Done. View changeset on Github: https://github.com/zenstruck/.github/commits/main')
         ;
     }

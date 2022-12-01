@@ -27,7 +27,7 @@ final class Commit
     public function isChangelogUpdate(): bool
     {
         // TODO improve? template? look at files?
-        return str_starts_with($this->summary(), '[changelog]');
+        return str_starts_with($this->summary(), '[changelog]') || str_starts_with($this->summary(), 'changelog:');
     }
 
     public function summary(): string
@@ -107,8 +107,6 @@ final class Commit
             // add PR link if message doesn't already contain
             $message .= " {$pr}";
         }
-
-        $message = \str_replace(['[feat]', '[fix]'], ['[feature]', '[bug]'], $message);
 
         return \sprintf('%s by %s', $message, \implode(', ', $this->authors()));
     }

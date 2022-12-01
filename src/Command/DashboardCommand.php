@@ -58,7 +58,15 @@ final class DashboardCommand extends Command
 
         $table = new Table($output->section());
         $table->setHeaderTitle($organization);
-        $table->setHeaders(['Repository', 'Latest Release', 'Status', 'Changelog?']);
+        $table->setHeaders([
+            'Repository',
+            'Latest Release',
+            'Status',
+            'Changelog?',
+            new TableCell('<info>CI?</info>', [
+                'style' => new TableCellStyle(['align' => 'center']),
+            ]),
+        ]);
 
         $table->render();
 
@@ -75,10 +83,26 @@ final class DashboardCommand extends Command
                 new TableCell(self::formatChangelog($repository), [
                     'style' => new TableCellStyle(['align' => 'center']),
                 ]),
+                new TableCell(self::formatCI($repository), [
+                    'style' => new TableCellStyle(['align' => 'center']),
+                ]),
             ]);
         }
 
         return self::SUCCESS;
+    }
+
+    private static function formatCI(Repository $repository): string
+    {
+        if ('active' !== ($repository->workflows()[0]['state'] ?? null)) {
+            return '<comment>(disabled)</comment>';
+        }
+
+        if (!$latestRun = $repository->workflowRuns()[0] ?? []) {
+            return '<comment>(none)</comment>';
+        }
+
+        return 'success' === ($latestRun['conclusion'] ?? null) ? '<info>✔</info>' : '<fg=red>✖</>';
     }
 
     private static function formatLatest(?Release $release): string
