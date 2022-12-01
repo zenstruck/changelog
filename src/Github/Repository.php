@@ -123,6 +123,16 @@ final class Repository
         return $this->releases ??= new ReleaseCollection($this, $this->api->request('GET', "/repos/{$this}/releases?per_page=100"));
     }
 
+    public function workflows(): array
+    {
+        return $this->api->request('GET', "/repos/{$this}/actions/workflows")['workflows'] ?? [];
+    }
+
+    public function workflowRuns(): array
+    {
+        return $this->api->request('GET', "/repos/{$this}/actions/runs")['workflow_runs'] ?? [];
+    }
+
     public function source(): ?self
     {
         return isset($this->data['source']) ? new self($this->data['source'], $this->api) : null;
