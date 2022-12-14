@@ -23,6 +23,14 @@ final class CommitCollection implements \IteratorAggregate, \Countable
         return $clone;
     }
 
+    public function withoutBotUpdates(): self
+    {
+        $clone = $this;
+        $clone->commits = \array_filter($clone->commits, static fn(Commit $commit) => !$commit->isBotUpdate());
+
+        return $clone;
+    }
+
     public function withoutChangelogUpdates(): self
     {
         $clone = $this;

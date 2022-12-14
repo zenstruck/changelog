@@ -142,8 +142,6 @@ final class DashboardCommand extends Command
         $unreleased = $repository
             ->compare($repository->defaultBranch(), $latest)
             ->commits()
-            ->withoutMerges()
-            ->withoutChangelogUpdates()
             ->count()
         ;
 

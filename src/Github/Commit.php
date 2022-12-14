@@ -21,13 +21,18 @@ final class Commit
     public function isMerge(): bool
     {
         // todo improve? currently only looks at the standard message github suggests
-        return str_starts_with($this->summary(), 'Merge pull request #');
+        return str_starts_with($this->summary(), 'Merge ');
     }
 
     public function isChangelogUpdate(): bool
     {
         // TODO improve? template? look at files?
         return str_starts_with($this->summary(), '[changelog]') || str_starts_with($this->summary(), 'changelog:');
+    }
+
+    public function isBotUpdate(): bool
+    {
+        return str_starts_with($this->summary(), 'bot:');
     }
 
     public function summary(): string

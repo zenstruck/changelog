@@ -26,7 +26,11 @@ final class Comparison
 
     public function commits(): CommitCollection
     {
-        return $this->commits ??= $this->repository->commits($this)->withoutMerges()->withoutChangelogUpdates();
+        return $this->commits ??= $this->repository->commits($this)
+            ->withoutMerges()
+            ->withoutChangelogUpdates()
+            ->withoutBotUpdates()
+        ;
     }
 
     public function isEmpty(): bool
