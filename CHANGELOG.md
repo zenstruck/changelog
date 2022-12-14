@@ -1,5 +1,21 @@
 # CHANGELOG
 
+## [v1.7.0](https://github.com/zenstruck/changelog/releases/tag/v1.7.0)
+
+December 14th, 2022 - [v1.6.0...v1.7.0](https://github.com/zenstruck/changelog/compare/v1.6.0...v1.7.0)
+
+* 98af125 bot: sync with template [skip ci] by @kbond
+* 211b3b4 fix(ci): change token? (#20) by @kbond
+* 9d0a96d fix(ci): reduce matrix (#20) by @kbond
+* 7cd3965 fix: php deprecations and ci (#20) by @kbond
+* 0be98f3 chore: add new ci jobs (#20) by @kbond
+* aaf0647 chore: fix cs (#20) by @kbond
+* 6c8e8b8 chore: update php-cs-fixer config (#20) by @kbond
+* d5b4024 feat: require PHP 8+ (#20) by @kbond
+* 38d4a2b minor(commit): adjust filters to exclude bot updates (#20) by @kbond
+* b4d1240 feat(dashboard): exclude archived packages (#20) by @kbond
+* 6117704 feat(dashboard): exclude packages w/o releases (#20) by @kbond
+
 ## [v1.6.0](https://github.com/zenstruck/changelog/releases/tag/v1.6.0)
 
 December 1st, 2022 - [v1.5.2...v1.6.0](https://github.com/zenstruck/changelog/compare/v1.5.2...v1.6.0)
