@@ -133,6 +133,11 @@ final class Repository
         return $this->api->request('GET', "/repos/{$this}/actions/runs")['workflow_runs'] ?? [];
     }
 
+    public function isArchived(): bool
+    {
+        return $this->data['archived'];
+    }
+
     public function source(): ?self
     {
         return isset($this->data['source']) ? new self($this->data['source'], $this->api) : null;

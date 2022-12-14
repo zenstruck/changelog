@@ -76,6 +76,10 @@ final class DashboardCommand extends Command
                 continue;
             }
 
+            if ($repository->isArchived()) {
+                continue;
+            }
+
             $table->appendRow([
                 (string) $repository,
                 self::formatLatest($repository->releases()->latest()),
