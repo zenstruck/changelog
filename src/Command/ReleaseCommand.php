@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the zenstruck/changelog package.
+ *
+ * (c) Kevin Bond <kevinbond@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Zenstruck\Changelog\Command;
 
 use Symfony\Component\Console\Command\Command;
@@ -75,7 +84,7 @@ final class ReleaseCommand extends Command
                     'major' => (string) $version->next('major'),
                     'custom' => 'Enter version manually',
                 ],
-                str_contains($body, 'feature') || str_starts_with($body, 'feat') ? 'feature' : null
+                \str_contains($body, 'feature') || \str_starts_with($body, 'feat') ? 'feature' : null
             );
 
             if ('custom' === $next) {

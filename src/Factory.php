@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the zenstruck/changelog package.
+ *
+ * (c) Kevin Bond <kevinbond@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Zenstruck\Changelog;
 
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
@@ -62,7 +71,7 @@ final class Factory
         $ini = \parse_ini_file($gitConfigFile, true, \INI_SCANNER_RAW);
 
         foreach ($ini as $section => $items) {
-            if (!str_starts_with($section, 'remote')) {
+            if (!\str_starts_with($section, 'remote')) {
                 continue;
             }
 

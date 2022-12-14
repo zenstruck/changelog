@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the zenstruck/changelog package.
+ *
+ * (c) Kevin Bond <kevinbond@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Zenstruck\Changelog\Github;
 
 use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
@@ -131,6 +140,11 @@ final class Repository
     public function workflowRuns(): array
     {
         return $this->api->request('GET', "/repos/{$this}/actions/runs")['workflow_runs'] ?? [];
+    }
+
+    public function isArchived(): bool
+    {
+        return $this->data['archived'];
     }
 
     public function source(): ?self

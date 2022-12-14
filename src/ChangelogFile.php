@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the zenstruck/changelog package.
+ *
+ * (c) Kevin Bond <kevinbond@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Zenstruck\Changelog;
 
 use Zenstruck\Changelog\Github\PendingRelease;
@@ -77,11 +86,11 @@ final class ChangelogFile
     {
         $updates = [];
 
-        if (!str_contains($this->content, $this->fileHeader())) {
+        if (!\str_contains($this->content, $this->fileHeader())) {
             throw new \RuntimeException('Changelog is not in the proper format.');
         }
 
-        if (str_contains($this->content, "[{$to}]")) {
+        if (\str_contains($this->content, "[{$to}]")) {
             throw new \RuntimeException("Changelog already contains changes for {$to}.");
         }
 

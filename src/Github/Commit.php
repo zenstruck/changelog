@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the zenstruck/changelog package.
+ *
+ * (c) Kevin Bond <kevinbond@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Zenstruck\Changelog\Github;
 
 /**
@@ -21,13 +30,18 @@ final class Commit
     public function isMerge(): bool
     {
         // todo improve? currently only looks at the standard message github suggests
-        return str_starts_with($this->summary(), 'Merge pull request #');
+        return \str_starts_with($this->summary(), 'Merge ');
     }
 
     public function isChangelogUpdate(): bool
     {
         // TODO improve? template? look at files?
-        return str_starts_with($this->summary(), '[changelog]') || str_starts_with($this->summary(), 'changelog:');
+        return \str_starts_with($this->summary(), '[changelog]') || \str_starts_with($this->summary(), 'changelog:');
+    }
+
+    public function isBotUpdate(): bool
+    {
+        return \str_starts_with($this->summary(), 'bot:');
     }
 
     public function summary(): string
@@ -65,32 +79,32 @@ final class Commit
             return $this->authors;
         }
 
-        if (!str_contains(\mb_strtolower($this->message()), 'co-authored-by')) {
+        if (!\str_contains(\mb_strtolower($this->message()), 'co-authored-by')) {
             return $this->authors = [$this->author()];
         }
 
         // use graphql to get the users:
         $response = $this->repository->api()->graphQlQuery(<<<EOF
-            {
-              repository(owner: "{$this->repository->owner()}", name: "{$this->repository->name()}") {
-                object(oid: "{$this->sha()}") {
-                  ... on Commit {
-                    authors(last: 100) {
-                      edges {
-                        node {
-                          user {
-                            login
+                {
+                  repository(owner: "{$this->repository->owner()}", name: "{$this->repository->name()}") {
+                    object(oid: "{$this->sha()}") {
+                      ... on Commit {
+                        authors(last: 100) {
+                          edges {
+                            node {
+                              user {
+                                login
+                              }
+                              email
+                              name
+                            }
                           }
-                          email
-                          name
                         }
                       }
                     }
                   }
                 }
-              }
-            }
-        EOF);
+            EOF);
 
         return $this->authors = \array_map(
             fn(array $e) => isset($e['node']['user']['login']) ? '@'.$e['node']['user']['login'] : $e['node']['name'] ?? $e['node']['email'],
@@ -103,7 +117,7 @@ final class Commit
         $message = "{$this->shortSha()} {$this->summary()}";
         $pr = $this->pullRequests()->first();
 
-        if ($pr && !str_contains($message, $pr = "(#{$pr->number()})")) {
+        if ($pr && !\str_contains($message, $pr = "(#{$pr->number()})")) {
             // add PR link if message doesn't already contain
             $message .= " {$pr}";
         }

@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the zenstruck/changelog package.
+ *
+ * (c) Kevin Bond <kevinbond@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Zenstruck\Changelog\Github;
 
 /**
@@ -19,6 +28,14 @@ final class CommitCollection implements \IteratorAggregate, \Countable
     {
         $clone = $this;
         $clone->commits = \array_filter($clone->commits, static fn(Commit $commit) => !$commit->isMerge());
+
+        return $clone;
+    }
+
+    public function withoutBotUpdates(): self
+    {
+        $clone = $this;
+        $clone->commits = \array_filter($clone->commits, static fn(Commit $commit) => !$commit->isBotUpdate());
 
         return $clone;
     }
