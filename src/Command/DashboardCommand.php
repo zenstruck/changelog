@@ -71,8 +71,8 @@ final class DashboardCommand extends Command
         $table->render();
 
         foreach ($factory->repositoriesFor($organization) as $repository) {
-            if (str_starts_with($repository->name(), '.')) {
-                // exclude repositories that begin with "."
+            if (0 === $repository->releases()->count()) {
+                // exclude repositories with no releases
                 continue;
             }
 
