@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the zenstruck/changelog package.
+ *
+ * (c) Kevin Bond <kevinbond@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace Zenstruck\Changelog;
 
 use Composer\Semver\Semver;
@@ -157,13 +166,13 @@ final class Version
         }
 
         switch (true) {
-            case str_contains($suffix, self::RC):
+            case \str_contains($suffix, self::RC):
                 return self::RC;
 
-            case str_contains($suffix, self::BETA):
+            case \str_contains($suffix, self::BETA):
                 return self::BETA;
 
-            case str_contains($suffix, self::ALPHA):
+            case \str_contains($suffix, self::ALPHA):
                 return self::ALPHA;
         }
 
