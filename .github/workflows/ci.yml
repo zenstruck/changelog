@@ -12,32 +12,7 @@ env:
 
 jobs:
   tests:
-    name: PHP ${{ matrix.php }} - ${{ matrix.stability }}
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        php: [ 7.4, 8.0 ]
-        stability: [ hightest ]
-        include:
-          - php: 7.4
-            stability: lowest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2.3.3
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@2.7.0
-        with:
-          php-version: ${{ matrix.php }}
-          coverage: none
-
-      - name: Install dependencies
-        uses: ramsey/composer-install@v1
-        with:
-          dependency-versions: ${{ matrix.stability }}
-
-      - name: Test
-        run: vendor/bin/simple-phpunit -v
+    uses: zenstruck/.github/.github/workflows/php-test.yml@main
 
   build-phar:
     name: Build PHAR
@@ -49,7 +24,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@2.7.0
         with:
-          php-version: 7.4
+          php-version: 8.0
           coverage: none
 
       - name: Install dependencies
@@ -74,25 +49,7 @@ jobs:
           path: bin/changelog.phar
 
   composer-validate:
-    name: Validate composer.json
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2.3.3
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@2.7.0
-        with:
-          php-version: 7.4
-          coverage: none
-
-      - name: Validate composer.json
-        run: composer validate --strict --no-check-lock
-
-  cs-check:
-    uses: zenstruck/.github/.github/workflows/php-cs-fixer.yml@main
-    with:
-      php: 7.4
+    uses: zenstruck/.github/.github/workflows/php-composer-validate.yml@main
 
   test-phar:
     runs-on: ubuntu-latest
@@ -107,7 +64,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@2.7.0
         with:
-          php-version: 7.4
+          php-version: 8.0
           coverage: none
 
       - uses: actions/download-artifact@v1
@@ -137,7 +94,6 @@ jobs:
     runs-on: ubuntu-latest
     name: Publish PHAR
     needs:
-      - cs-check
       - composer-validate
       - test-phar
       - tests
