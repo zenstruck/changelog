@@ -12,7 +12,20 @@ env:
 
 jobs:
   tests:
-    uses: zenstruck/.github/.github/workflows/php-test.yml@main
+    name: PHP ${{ matrix.php }}, ${{ matrix.deps }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: [8.0, 8.1, 8.2]
+        deps: [highest]
+        include:
+          - php: 8.0
+            deps: lowest
+    steps:
+      - uses: zenstruck/.github@php-test-symfony
+        with:
+          php: ${{ matrix.php }}
+          deps: ${{ matrix.deps }}
 
   build-phar:
     name: Build PHAR

@@ -161,9 +161,11 @@ final class Version
 
     private static function parseStability(?string $suffix): ?string
     {
-        if (!$suffix = \mb_strtolower($suffix)) {
+        if (!$suffix) {
             return self::STABLE;
         }
+
+        $suffix = \mb_strtolower($suffix);
 
         switch (true) {
             case \str_contains($suffix, self::RC):
