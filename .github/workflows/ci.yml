@@ -96,7 +96,6 @@ jobs:
     needs:
       - composer-validate
       - test-phar
-      - tests
     if: github.event_name == 'release'
     steps:
       - uses: actions/download-artifact@v1
@@ -113,3 +112,24 @@ jobs:
           asset_path: changelog.phar
           asset_name: changelog.phar
           asset_content_type: application/zip
+
+  fixcs:
+    name: Run php-cs-fixer
+    needs: [composer-validate, test-phar]
+    if: ${{ github.event_name == 'push' || github.event_name == 'schedule' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: zenstruck/.github@php-cs-fixer
+        with:
+          php: 8
+          key: ${{ secrets.GPG_PRIVATE_KEY }}
+
+  sync-with-template:
+    name: Sync meta files
+    needs: [composer-validate, test-phar]
+    if: ${{ github.event_name == 'push' || github.event_name == 'schedule' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: zenstruck/.github@sync-with-template
+        with:
+          key: ${{ secrets.GPG_PRIVATE_KEY }}
