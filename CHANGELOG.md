@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## [v1.7.1](https://github.com/zenstruck/changelog/releases/tag/v1.7.1)
+
+December 14th, 2022 - [v1.7.0...v1.7.1](https://github.com/zenstruck/changelog/compare/v1.7.0...v1.7.1)
+
+* a29f106 fix(ci): use new release asset upload action (#22) by @kbond
+* 87837bc fix(ci): use pull_request_target  (#21) by @kbond
+
 ## [v1.7.0](https://github.com/zenstruck/changelog/releases/tag/v1.7.0)
 
 December 14th, 2022 - [v1.6.0...v1.7.0](https://github.com/zenstruck/changelog/compare/v1.6.0...v1.7.0)
