@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [v1.7.2](https://github.com/zenstruck/changelog/releases/tag/v1.7.2)
+
+December 14th, 2022 - [v1.7.1...v1.7.2](https://github.com/zenstruck/changelog/compare/v1.7.1...v1.7.2)
+
+* f2d1709 fix(ci): fix typo by @kbond
+
 ## [v1.7.1](https://github.com/zenstruck/changelog/releases/tag/v1.7.1)
 
 December 14th, 2022 - [v1.7.0...v1.7.1](https://github.com/zenstruck/changelog/compare/v1.7.0...v1.7.1)
