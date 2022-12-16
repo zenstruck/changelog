@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [v1.7.3](https://github.com/zenstruck/changelog/releases/tag/v1.7.3)
+
+December 16th, 2022 - [v1.7.2...v1.7.3](https://github.com/zenstruck/changelog/compare/v1.7.2...v1.7.3)
+
+* 4bcad39 fix(release): next version detection (#23) by @kbond
+
 ## [v1.7.2](https://github.com/zenstruck/changelog/releases/tag/v1.7.2)
 
 December 14th, 2022 - [v1.7.1...v1.7.2](https://github.com/zenstruck/changelog/compare/v1.7.1...v1.7.2)
