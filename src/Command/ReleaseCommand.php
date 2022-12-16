@@ -84,7 +84,7 @@ final class ReleaseCommand extends Command
                     'major' => (string) $version->next('major'),
                     'custom' => 'Enter version manually',
                 ],
-                \str_contains($body, 'feature') || \str_starts_with($body, 'feat') ? 'feature' : null
+                \str_contains($body, '[feature]') || \str_contains($body, 'feat:') || \str_contains($body, 'feat(') ? 'feature' : 'bug'
             );
 
             if ('custom' === $next) {
