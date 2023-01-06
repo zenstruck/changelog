@@ -53,19 +53,22 @@ This tool requires a GitHub Personal Access Token to access the GitHub API. You 
 
 ## Usage
 
+> **Note**: Commands that detect the repository from your current directory use the `upstream` origin
+> if available.
+
 ### Changelog Preview
 
 Generate a changelog preview in your console:
 
 ```bash
-# outputs changelog for "your/repository" from tag "v1.0.0" to branch "main"
-changelog generate --repository=your/repository --from=v1.0.0 --to=main
-
-# (no arguments), detects repository from current directory, from=last release on GitHub, to=default branch
+# "interactive", detects repository from current directory, from=last release on GitHub, to=default branch
 changelog generate
 
 # equivalent to above, "generate" is the "default command"
 changelog
+
+# outputs changelog for "your/repository" from tag "v1.0.0" to branch "main"
+changelog generate --repository=your/repository --from=v1.0.0 --to=main
 ```
 
 Run `changelog generate --help` to see full command documentation.
@@ -91,6 +94,9 @@ bin/changelog file:create --exclude-pre-releases
 Create (and optionally push) a release changelog (exclude `--push` to preview what the release will look like):
 
 ```bash
+# "interactive" - detects repository from current directory, suggests next version
+changelog release
+
 # generates changelog from v1.0.0 to main and creates v1.1.0 release on GitHub that has the changelog as the body
 changelog release v1.1.0 --repository=your/repository --from=v1.0.0 --target=main --push
 
