@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## [v1.7.4](https://github.com/zenstruck/changelog/releases/tag/v1.7.4)
+
+July 3rd, 2024 - [v1.7.3...v1.7.4](https://github.com/zenstruck/changelog/compare/v1.7.3...v1.7.4)
+
+* cc87d7f fix: update tests (#24) by @kbond
+* db7321a fix: reserved cache key chars (#24) by @kbond
+* c02ea93 Update README.md by @kbond
+* de86909 fix(ci): add token by @kbond
+
 ## [v1.7.3](https://github.com/zenstruck/changelog/releases/tag/v1.7.3)
 
 December 16th, 2022 - [v1.7.2...v1.7.3](https://github.com/zenstruck/changelog/compare/v1.7.2...v1.7.3)
