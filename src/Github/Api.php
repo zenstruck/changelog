@@ -64,7 +64,7 @@ final class Api
             return $this->rawRequest($method, $endpoint, $options)->toArray();
         }
 
-        return $this->cache->get(sha1($method.$endpoint), function(CacheItemInterface $item) use ($method, $endpoint, $options) {
+        return $this->cache->get(\sha1($method.$endpoint), function(CacheItemInterface $item) use ($method, $endpoint, $options) {
             $response = $this->rawRequest($method, $endpoint, $options);
 
             if (\preg_match('#max-age=(\d+)#', $response->getHeaders()['cache-control'][0] ?? '', $matches)) {
