@@ -50,7 +50,7 @@ final class GenerateCommandTest extends TestCase
             ->execute()
             ->assertSuccessful()
             ->assertOutputContains('Generating changelog for zenstruck/.github:main')
-            ->assertOutputContains('f9489f5 Update MAINTENANCE.md by @kbond')
+            ->assertOutputContains('e1025ad revert enabling php-cs-fixer parallel processing by @kbond')
             ->assertOutputContains('Done. View changeset on Github: https://github.com/zenstruck/.github/commits/main')
         ;
     }

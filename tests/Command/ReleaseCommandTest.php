@@ -141,7 +141,7 @@ final class ReleaseCommandTest extends TestCase
             ->assertSuccessful()
             ->assertOutputContains('Releasing as v1.0.0 (v1.0.0)')
             ->assertOutputContains('Generating changelog for zenstruck/.github:main')
-            ->assertOutputContains('f9489f5 Update MAINTENANCE.md by @kbond')
+            ->assertOutputContains('e1025ad revert enabling php-cs-fixer parallel processing by @kbond')
             ->assertOutputContains('[Full Change List](https://github.com/zenstruck/.github/commits/v1.0.0)')
         ;
     }
@@ -158,7 +158,7 @@ final class ReleaseCommandTest extends TestCase
             ->assertSuccessful()
             ->assertOutputContains('Releasing as v1.0.0 (v1.0.0)')
             ->assertOutputContains('Generating changelog for zenstruck/.github:main')
-            ->assertOutputContains('f9489f5 Update MAINTENANCE.md by @kbond')
+            ->assertOutputContains('e1025ad revert enabling php-cs-fixer parallel processing by @kbond')
             ->assertOutputContains('Not creating release.')
         ;
     }
@@ -175,7 +175,7 @@ final class ReleaseCommandTest extends TestCase
             ->assertSuccessful()
             ->assertOutputContains('Releasing as v0.1.0 (v0.1.0)')
             ->assertOutputContains('Generating changelog for zenstruck/.github:main')
-            ->assertOutputContains('f9489f5 Update MAINTENANCE.md by @kbond')
+            ->assertOutputContains('e1025ad revert enabling php-cs-fixer parallel processing by @kbond')
             ->assertOutputContains('[Full Change List](https://github.com/zenstruck/.github/commits/v0.1.0)')
         ;
     }
@@ -192,7 +192,7 @@ final class ReleaseCommandTest extends TestCase
             ->assertSuccessful()
             ->assertOutputContains('Releasing as v0.1.0 (v0.1.0)')
             ->assertOutputContains('Generating changelog for zenstruck/.github:main')
-            ->assertOutputContains('f9489f5 Update MAINTENANCE.md by @kbond')
+            ->assertOutputContains('e1025ad revert enabling php-cs-fixer parallel processing by @kbond')
             ->assertOutputContains('Not creating release.')
         ;
     }
@@ -209,7 +209,7 @@ final class ReleaseCommandTest extends TestCase
             ->assertSuccessful()
             ->assertOutputContains('Releasing as v0.0.1 (v0.0.1)')
             ->assertOutputContains('Generating changelog for zenstruck/.github:main')
-            ->assertOutputContains('f9489f5 Update MAINTENANCE.md by @kbond')
+            ->assertOutputContains('e1025ad revert enabling php-cs-fixer parallel processing by @kbond')
             ->assertOutputContains('[Full Change List](https://github.com/zenstruck/.github/commits/v0.0.1)')
         ;
     }
@@ -226,7 +226,7 @@ final class ReleaseCommandTest extends TestCase
             ->assertSuccessful()
             ->assertOutputContains('Releasing as v0.0.1 (v0.0.1)')
             ->assertOutputContains('Generating changelog for zenstruck/.github:main')
-            ->assertOutputContains('f9489f5 Update MAINTENANCE.md by @kbond')
+            ->assertOutputContains('e1025ad revert enabling php-cs-fixer parallel processing by @kbond')
             ->assertOutputContains('Not creating release.')
         ;
     }
@@ -280,7 +280,7 @@ final class ReleaseCommandTest extends TestCase
             ->assertSuccessful()
             ->assertOutputContains('Releasing as v2.0.5 (v2.0.5)')
             ->assertOutputContains('Generating changelog for zenstruck/.github:main')
-            ->assertOutputContains('f9489f5 Update MAINTENANCE.md by @kbond')
+            ->assertOutputContains('e1025ad revert enabling php-cs-fixer parallel processing by @kbond')
             ->assertOutputContains('[Full Change List](https://github.com/zenstruck/.github/commits/v2.0.5)')
         ;
     }
@@ -298,7 +298,7 @@ final class ReleaseCommandTest extends TestCase
             ->assertSuccessful()
             ->assertOutputContains('Releasing as v2.0.5 (v2.0.5)')
             ->assertOutputContains('Generating changelog for zenstruck/.github:main')
-            ->assertOutputContains('f9489f5 Update MAINTENANCE.md by @kbond')
+            ->assertOutputContains('e1025ad revert enabling php-cs-fixer parallel processing by @kbond')
             ->assertOutputContains('Not creating release.')
         ;
     }
