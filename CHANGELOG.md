@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## [v1.7.5](https://github.com/zenstruck/changelog/releases/tag/v1.7.5)
+
+July 12th, 2024 - [v1.7.4...v1.7.5](https://github.com/zenstruck/changelog/compare/v1.7.4...v1.7.5)
+
+* bb6e948 fix: prevent duplicate commit authors by @kbond
+* 936de86 minor: ci workflow updates by @kbond
+
 ## [v1.7.4](https://github.com/zenstruck/changelog/releases/tag/v1.7.4)
 
 July 3rd, 2024 - [v1.7.3...v1.7.4](https://github.com/zenstruck/changelog/compare/v1.7.3...v1.7.4)
