@@ -106,10 +106,10 @@ final class Commit
                 }
             EOF);
 
-        return $this->authors = \array_map(
+        return $this->authors = \array_unique(\array_map(
             fn(array $e) => isset($e['node']['user']['login']) ? '@'.$e['node']['user']['login'] : $e['node']['name'] ?? $e['node']['email'],
             $response['data']['repository']['object']['authors']['edges']
-        );
+        ));
     }
 
     public function format(): string
