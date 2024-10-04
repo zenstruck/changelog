@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## [v1.8.0](https://github.com/zenstruck/changelog/releases/tag/v1.8.0)
+
+October 4th, 2024 - [v1.7.5...v1.8.0](https://github.com/zenstruck/changelog/compare/v1.7.5...v1.8.0)
+
+* 0ec7ea0 feat: adjust dashboard output to include issue/PR count (#26) by @kbond
+* 285e9e5 minor: include 100 repositories when querying (#25) by @kbond
+* 2fd0278 fix: display/use tag name from release (#25) by @kbond
+
 ## [v1.7.5](https://github.com/zenstruck/changelog/releases/tag/v1.7.5)
 
 July 12th, 2024 - [v1.7.4...v1.7.5](https://github.com/zenstruck/changelog/compare/v1.7.4...v1.7.5)
