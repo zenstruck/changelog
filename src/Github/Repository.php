@@ -159,7 +159,7 @@ final class Repository
 
     public function openIssues(): int
     {
-       return $this->data['open_issues'] ?? 0;
+        return $this->data['open_issues'] ?? 0;
     }
 
     public function openPullRequests(): int
