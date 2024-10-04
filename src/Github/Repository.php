@@ -45,7 +45,7 @@ final class Repository
     {
         return \array_map(
             static fn(array $data) => new self($data, $api),
-            $api->request('GET', "/orgs/{$name}/repos?type=public")
+            $api->request('GET', "/orgs/{$name}/repos?type=public&per_page=100")
         );
     }
 
