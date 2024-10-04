@@ -19,7 +19,6 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
 use Zenstruck\Changelog\Configuration;
 use Zenstruck\Changelog\Factory;
 use Zenstruck\Changelog\Github\Release;
@@ -71,7 +70,8 @@ final class DashboardCommand extends Command
             'Repository',
             'Latest Release',
             'Status',
-            'Changelog?',
+            'Issues',
+            'PRs',
             new TableCell('<info>CI?</info>', [
                 'style' => new TableCellStyle(['align' => 'center']),
             ]),
@@ -93,7 +93,10 @@ final class DashboardCommand extends Command
                 (string) $repository,
                 self::formatLatest($repository->releases()->latest()),
                 self::releaseStatus($repository),
-                new TableCell(self::formatChangelog($repository), [
+                new TableCell($repository->openIssues(), [
+                    'style' => new TableCellStyle(['align' => 'center']),
+                ]),
+                new TableCell($repository->openPullRequests(), [
                     'style' => new TableCellStyle(['align' => 'center']),
                 ]),
                 new TableCell(self::formatCI($repository), [
@@ -129,17 +132,6 @@ final class DashboardCommand extends Command
         }
 
         return "<info>{$release->tagName()}</info>";
-    }
-
-    private static function formatChangelog(Repository $repository): string
-    {
-        try {
-            $file = $repository->getFile('CHANGELOG.md');
-
-            return \str_contains($file->content(), "[{$repository->releases()->latest()}]") ? '<info>✔</info>' : '<comment>!</comment>';
-        } catch (ClientExceptionInterface $e) {
-            return '<fg=red>✖</>';
-        }
     }
 
     private static function releaseStatus(Repository $repository): string

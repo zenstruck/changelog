@@ -156,4 +156,14 @@ final class Repository
     {
         return $this->api;
     }
+
+    public function openIssues(): int
+    {
+       return $this->data['open_issues'] ?? 0;
+    }
+
+    public function openPullRequests(): int
+    {
+        return \count($this->api->request('GET', "/repos/{$this}/pulls?state=open&per_page=100"));
+    }
 }
