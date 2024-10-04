@@ -125,10 +125,10 @@ final class DashboardCommand extends Command
         }
 
         if ($release->isPreRelease()) {
-            return "<comment>{$release}</comment>";
+            return "<comment>{$release->tagName()}</comment>";
         }
 
-        return "<info>{$release}</info>";
+        return "<info>{$release->tagName()}</info>";
     }
 
     private static function formatChangelog(Repository $repository): string
@@ -149,7 +149,7 @@ final class DashboardCommand extends Command
         }
 
         $unreleased = $repository
-            ->compare($repository->defaultBranch(), $latest)
+            ->compare($repository->defaultBranch(), $latest->tagName())
             ->commits()
             ->count()
         ;
