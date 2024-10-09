@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [v1.9.0](https://github.com/zenstruck/changelog/releases/tag/v1.9.0)
+
+October 9th, 2024 - [v1.8.0...v1.9.0](https://github.com/zenstruck/changelog/compare/v1.8.0...v1.9.0)
+
+* 8a09265 feat: add `--enable-workflows` to `dashboard` command (#27) by @kbond
+
 ## [v1.8.0](https://github.com/zenstruck/changelog/releases/tag/v1.8.0)
 
 October 4th, 2024 - [v1.7.5...v1.8.0](https://github.com/zenstruck/changelog/compare/v1.7.5...v1.8.0)
