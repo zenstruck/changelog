@@ -126,3 +126,6 @@ changelog dashboard my-org
 # if saved, subsequent calls to the command will not require the organization argument
 changelog dashboard
 ```
+
+If you have repositories that have workflows disabled due to inactivity, you
+can use the `--enable-workflows` option to enable them.

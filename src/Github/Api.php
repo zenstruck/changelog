@@ -80,7 +80,7 @@ final class Api
         return $this->request('POST', '/graphql', ['json' => ['query' => $query]]);
     }
 
-    private function rawRequest(string $method, string $endpoint, array $options = []): ResponseInterface
+    public function rawRequest(string $method, string $endpoint, array $options = []): ResponseInterface
     {
         return $this->http->request($method, $endpoint, $options);
     }
