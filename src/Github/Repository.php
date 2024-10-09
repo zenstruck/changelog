@@ -142,6 +142,11 @@ final class Repository
         return $this->api->request('GET', "/repos/{$this}/actions/runs")['workflow_runs'] ?? [];
     }
 
+    public function enableWorkflow(string $id): void
+    {
+        $this->api->rawRequest('PUT', "/repos/{$this}/actions/workflows/{$id}/enable");
+    }
+
     public function isArchived(): bool
     {
         return $this->data['archived'];

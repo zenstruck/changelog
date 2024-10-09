@@ -17,6 +17,7 @@ use Symfony\Component\Console\Helper\TableCell;
 use Symfony\Component\Console\Helper\TableCellStyle;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Zenstruck\Changelog\Configuration;
@@ -35,6 +36,7 @@ final class DashboardCommand extends Command
             ->setName('dashboard')
             ->setDescription('Show the release status packages in organization(s)')
             ->addArgument('organization', InputArgument::OPTIONAL, 'The Github organization')
+            ->addOption('enable-workflows', null, InputOption::VALUE_NONE, 'Enable workflows disabled due to inactivity')
         ;
     }
 
@@ -44,6 +46,7 @@ final class DashboardCommand extends Command
         $factory = new Factory();
         $organization = $input->getArgument('organization');
         $default = $factory->configuration()->get(Configuration::DEFAULT_DASHBOARD_ORG);
+        $enableWorkflows = $input->getOption('enable-workflows');
 
         $io->title('Release Status Dashboard');
 
@@ -103,6 +106,14 @@ final class DashboardCommand extends Command
                     'style' => new TableCellStyle(['align' => 'center']),
                 ]),
             ]);
+
+            if ($enableWorkflows) {
+                foreach ($repository->workflows() as $workflow) {
+                    if ('disabled_inactivity' === $workflow['state']) {
+                        $repository->enableWorkflow($workflow['id']);
+                    }
+                }
+            }
         }
 
         return self::SUCCESS;
