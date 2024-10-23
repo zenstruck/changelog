@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## [v1.9.1](https://github.com/zenstruck/changelog/releases/tag/v1.9.1)
+
+October 23rd, 2024 - [v1.9.0...v1.9.1](https://github.com/zenstruck/changelog/compare/v1.9.0...v1.9.1)
+
+* d6f7a46 fix: use target when finding releases by @kbond
+* f68f031 fix: ensure changelog is generated for single branch by @kbond
+
 ## [v1.9.0](https://github.com/zenstruck/changelog/releases/tag/v1.9.0)
 
 October 9th, 2024 - [v1.8.0...v1.9.0](https://github.com/zenstruck/changelog/compare/v1.8.0...v1.9.0)
