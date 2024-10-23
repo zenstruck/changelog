@@ -46,8 +46,8 @@ final class FileUpdateCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $filename = Path::canonicalize(\sprintf('%s/%s', \getcwd(), $input->getOption('filename')));
         $repository = (new Factory())->repository($input->getOption('repository'));
-        $latest = $repository->releases()->latest();
-        $target = $input->getOption('target');
+        $target = $input->getOption('target') ?? $repository->defaultBranch();
+        $latest = $repository->releases()->on($target)->latest();
         $remote = $input->getOption('remote');
 
         if (!$latest) {

@@ -47,8 +47,8 @@ final class ReleaseCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
         $repository = (new Factory())->repository($input->getOption('repository'));
-        $from = $input->getOption('from') ?? $repository->releases()->latest();
         $target = $input->getOption('target') ?? $repository->defaultBranch();
+        $from = $input->getOption('from') ?? $repository->releases()->on($target)->latest();
         $comparison = $repository->compare($target, $from);
         $body = [];
 
