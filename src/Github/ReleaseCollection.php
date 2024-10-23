@@ -41,6 +41,14 @@ final class ReleaseCollection implements \IteratorAggregate, \Countable
         return null;
     }
 
+    public function on(string $target): self
+    {
+        $clone = $this;
+        $clone->releases = \array_filter($clone->releases, static fn(Release $release) => $target === $release->target());
+
+        return $clone;
+    }
+
     /**
      * @return \Traversable|Release[]
      */

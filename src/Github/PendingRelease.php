@@ -90,4 +90,9 @@ final class PendingRelease extends Release
     {
         return $this->version->isPreRelease();
     }
+
+    public function target(): string
+    {
+        return $this->target;
+    }
 }

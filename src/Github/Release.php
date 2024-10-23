@@ -44,4 +44,6 @@ abstract class Release
     abstract public function publishedAt(): \DateTimeImmutable;
 
     abstract public function isPreRelease(): bool;
+
+    abstract public function target(): string;
 }

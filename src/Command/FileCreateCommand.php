@@ -35,6 +35,7 @@ final class FileCreateCommand extends Command
             ->addOption('filename', 'f', InputOption::VALUE_REQUIRED, 'The filename (relative to cwd)', 'CHANGELOG.md')
             ->addOption('include-pre-releases', null, InputOption::VALUE_NONE, 'Include "pre-releases"')
             ->addOption('remote', null, InputOption::VALUE_OPTIONAL, 'Save to repository (can pass target branch - defaults to default branch)', false)
+            ->addOption('target', 't', InputOption::VALUE_REQUIRED, 'Branch to target (leave blank for default branch)')
         ;
     }
 
@@ -49,13 +50,15 @@ final class FileCreateCommand extends Command
             $remote ??= $repository->defaultBranch();
         }
 
+        $target = $input->getOption('target') ?? $repository->defaultBranch();
+
         $io->title("Create CHANGELOG file for {$repository}");
 
         if (!$remote && $fs->exists($filename) && (!$input->isInteractive() || !$io->confirm('Changelog file already exists, override?', false))) {
             throw new \RuntimeException('Aborting as the changelog file already exists.');
         }
 
-        $releases = $repository->releases();
+        $releases = $repository->releases()->on($target);
 
         if (!$input->getOption('include-pre-releases')) {
             $releases = $releases->withoutPreReleases();

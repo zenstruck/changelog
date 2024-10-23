@@ -54,4 +54,9 @@ final class ExistingRelease extends Release
     {
         return $this->data['prerelease'];
     }
+
+    public function target(): string
+    {
+        return $this->data['target_commitish'];
+    }
 }
