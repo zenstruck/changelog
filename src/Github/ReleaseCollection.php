@@ -32,6 +32,17 @@ final class ReleaseCollection implements \IteratorAggregate, \Countable
         return $clone;
     }
 
+    public function get(string $name): ?Release
+    {
+        foreach ($this as $release) {
+            if ($name === $release->name() || $name === $release->tagName()) {
+                return $release;
+            }
+        }
+
+        return null;
+    }
+
     public function latest(): ?Release
     {
         foreach ($this as $release) {
