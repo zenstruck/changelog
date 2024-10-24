@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [v1.9.2](https://github.com/zenstruck/changelog/releases/tag/v1.9.2)
+
+October 24th, 2024 - [v1.9.1...v1.9.2](https://github.com/zenstruck/changelog/compare/v1.9.1...v1.9.2)
+
+* e2fb856 fix: generate changelog with release when using `--from` by @kbond
+
 ## [v1.9.1](https://github.com/zenstruck/changelog/releases/tag/v1.9.1)
 
 October 23rd, 2024 - [v1.9.0...v1.9.1](https://github.com/zenstruck/changelog/compare/v1.9.0...v1.9.1)
