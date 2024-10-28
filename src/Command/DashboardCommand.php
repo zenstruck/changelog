@@ -125,7 +125,17 @@ final class DashboardCommand extends Command
             return '<comment>(disabled)</comment>';
         }
 
-        if (!$latestRun = $repository->workflowRuns()[0] ?? []) {
+        $latestRun = null;
+
+        foreach ($repository->workflowRuns() as $run) {
+            if ($repository->defaultBranch() === $run['head_branch'] && $repository->fullName() === $run['head_repository']['full_name']) {
+                $latestRun = $run;
+
+                break;
+            }
+        }
+
+        if (!$latestRun) {
             return '<comment>(none)</comment>';
         }
 

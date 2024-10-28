@@ -59,6 +59,11 @@ final class Repository
         return $this->data['owner']['login'];
     }
 
+    public function fullName(): string
+    {
+        return $this->data['full_name'];
+    }
+
     public function compare(string $to, ?string $from = null): Comparison
     {
         return new Comparison($this, $to, $from);
