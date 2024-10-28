@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [v1.9.3](https://github.com/zenstruck/changelog/releases/tag/v1.9.3)
+
+October 28th, 2024 - [v1.9.2...v1.9.3](https://github.com/zenstruck/changelog/compare/v1.9.2...v1.9.3)
+
+* adb2135 fix: only look at workflow runs for default branch by @kbond
+
 ## [v1.9.2](https://github.com/zenstruck/changelog/releases/tag/v1.9.2)
 
 October 24th, 2024 - [v1.9.1...v1.9.2](https://github.com/zenstruck/changelog/compare/v1.9.1...v1.9.2)
