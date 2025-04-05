@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [v1.10.0](https://github.com/zenstruck/changelog/releases/tag/v1.10.0)
+
+April 5th, 2025 - [v1.9.3...v1.10.0](https://github.com/zenstruck/changelog/compare/v1.9.3...v1.10.0)
+
+* a782d20 feat: add `Release::isDraft()` (#28) by @kbond
+
 ## [v1.9.3](https://github.com/zenstruck/changelog/releases/tag/v1.9.3)
 
 October 28th, 2024 - [v1.9.2...v1.9.3](https://github.com/zenstruck/changelog/compare/v1.9.2...v1.9.3)
