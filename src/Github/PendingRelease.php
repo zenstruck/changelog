@@ -95,4 +95,9 @@ final class PendingRelease extends Release
     {
         return $this->target;
     }
+
+    public function isDraft(): bool
+    {
+        return true;
+    }
 }

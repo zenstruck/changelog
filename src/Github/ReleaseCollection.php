@@ -11,6 +11,8 @@
 
 namespace Zenstruck\Changelog\Github;
 
+use function PHPUnit\Framework\containsEqual;
+
 /**
  * @author Kevin Bond <kevinbond@gmail.com>
  */
@@ -46,6 +48,10 @@ final class ReleaseCollection implements \IteratorAggregate, \Countable
     public function latest(): ?Release
     {
         foreach ($this as $release) {
+            if ($release->isDraft()) {
+                continue;
+            }
+
             return $release;
         }
 

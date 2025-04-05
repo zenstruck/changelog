@@ -59,4 +59,9 @@ final class ExistingRelease extends Release
     {
         return $this->data['target_commitish'];
     }
+
+    public function isDraft(): bool
+    {
+        return $this->data['draft'];
+    }
 }
