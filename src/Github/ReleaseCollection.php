@@ -11,8 +11,6 @@
 
 namespace Zenstruck\Changelog\Github;
 
-use function PHPUnit\Framework\containsEqual;
-
 /**
  * @author Kevin Bond <kevinbond@gmail.com>
  */
