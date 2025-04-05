@@ -46,4 +46,6 @@ abstract class Release
     abstract public function isPreRelease(): bool;
 
     abstract public function target(): string;
+
+    abstract public function isDraft(): bool;
 }
