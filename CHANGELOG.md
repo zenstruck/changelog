@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## [v1.11.0](https://github.com/zenstruck/changelog/releases/tag/v1.11.0)
+
+April 6th, 2025 - [v1.10.0...v1.11.0](https://github.com/zenstruck/changelog/compare/v1.10.0...v1.11.0)
+
+* 1e8c818 feat: require PHP 8.1+ (#29) by @kbond
+
 ## [v1.10.0](https://github.com/zenstruck/changelog/releases/tag/v1.10.0)
 
 April 5th, 2025 - [v1.9.3...v1.10.0](https://github.com/zenstruck/changelog/compare/v1.9.3...v1.10.0)
