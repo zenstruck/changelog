@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php: [8.0, 8.1, 8.2]
+        php: [8.1]
     steps:
       - uses: zenstruck/.github/actions/php-test-symfony@main
         with:
@@ -33,7 +33,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.0
+          php-version: 8.1
           coverage: none
 
       - name: Install dependencies
@@ -73,7 +73,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.0
+          php-version: 8.1
           coverage: none
 
       - uses: actions/download-artifact@v4
@@ -130,7 +130,7 @@ jobs:
     steps:
       - uses: zenstruck/.github/actions/php-cs-fixer@main
         with:
-          php: 8
+          php: 8.1
           key: ${{ secrets.GPG_PRIVATE_KEY }}
           token: ${{ secrets.COMPOSER_TOKEN }}
 
